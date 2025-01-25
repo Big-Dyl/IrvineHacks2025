@@ -14,13 +14,24 @@ const GameData = require('./gamedata.js');
 // Game data
 // TODO: extract this to a database eventually
 const gameData = new GameData();
+// User data
+// socket id: { gameCode: string, selectedChar: number } | undefined
+const users = {};
 
 io.on('connection', (socket) => {
 
     console.log('USER CONNECTED: ' + socket.id);
+    // Add the user
+    users[socket.id] = undefined;
 
     socket.on('hello', (count) => {
         console.log(count + 1);
+    });
+
+    // Let a user join a game of a code with info
+    socket.on('joinGame', (data) => {
+        console.log('USER JOINED ROOM: code = ' + data.gameCode + ', char = ' + data.selectedChar + ', id = ' + socket.id);
+        users[socket.id] = { gameCode: data.gameCode, selectedChar: data.selectedChar };
     });
 
     // Create the game and emit back the game code once it is done
@@ -35,6 +46,29 @@ io.on('connection', (socket) => {
         }
     });
   });
+
+// Every second, update the games
+setInterval(() => {
+    console.log("  (Updating games)");
+    gameData.updateGamesByOneSecond();
+    // TODO: let the sockets know, if they're connected
+    for (const [userId, value] of Object.entries(users)) {
+        if (value === undefined) {
+            continue;
+        }
+        console.log("    (Updating game for user): id = " + userId + ", code = " + value.gameCode);
+        //try {
+            let thisGame = gameData.getGame(value.gameCode)
+        console.log("      (Sending): " + JSON.stringify(thisGame));
+            io.to(userId).emit("updateGame", thisGame);
+        //} catch (err) {
+            // Could not find the game; it's probably gone
+            //console.log("ERR: could not get game for user: id = " + userId + ", code = " + value.gameCode);
+            //console.log(err);
+            //continue;
+        //}
+    }
+}, 1000);
   
 server.listen(3000, () => {
     console.log('listening on *:3000');

@@ -11,10 +11,10 @@ function App() {
   useEffect(() => {
     socket.on("gameCreated", (gameCode) => {
       // Go to the corresponding URL
-    const newUrl = new URL(document.location + "./game");
-    newUrl.searchParams.append("selectedChar", ("" + selectedChar));
-    newUrl.searchParams.append("roomCode", gameCode);
-    window.location.href = newUrl.toString();
+      const newUrl = new URL(document.location + "./game");
+      newUrl.searchParams.append("selectedChar", ("" + selectedChar));
+      newUrl.searchParams.append("roomCode", gameCode);
+      window.location.href = newUrl.toString();
     });
   }, []);
 

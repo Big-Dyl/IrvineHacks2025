@@ -36,6 +36,7 @@ class GameData {
     // 2. Obtain the street names
     // 3. Create and return the game
     this.gameData[gameCode] = {
+      cityName: cityName,
       allNames: [
         "Bob Avenue",
         "Alice Avenue",
@@ -44,15 +45,18 @@ class GameData {
       currentNameIndex: 0,
       currentSecondsLeft: 30,
       currentNamePortions: []
-    }
+    };
     return gameCode;
   }
 
   getGame(gameCode) {
-    if (gameCode in this.gameData) {
-      return this.gameData[gameCode];
-    } else {
-      throw ReferenceError;
+    return this.gameData[gameCode];
+  }
+
+  updateGamesByOneSecond() {
+    for (const key of Object.keys(this.gameData)) {
+      // Update the game
+      this.gameData[key].currentSecondsLeft -= 1;
     }
   }
 };
