@@ -1,3 +1,4 @@
+const streets = require('./streets');
 class GameData {
   constructor() {
     // Store the game data
@@ -32,17 +33,37 @@ class GameData {
 
   async createGame(cityName) {
     // 1. Generate the code
-    let gameCode = this.generateCode()
+    let gameCode = this.generateCode();
+    let allStreets;
+    await streets.getStreets(cityName).then((res)=>allStreets = res);
+    //remove duplicates and undefined
+    let seen = new Set();
+    seen.add(undefined);
+    for(let i = 0; i < allStreets.streets.length; i++){
+      if(seen.has(allStreets.streets[i])){
+        allStreets.streets.splice(i, 1);
+        allStreets.coords.splice(i, 1);
+        i--;
+      } else {
+        seen.add(allStreets.streets[i]);
+      }
+    }
+    //shuffle streets
+    for(let i = 0; i < allStreets.streets.length; i++){
+      let temp = allStreets.streets[i];
+      let tempc = allStreets.coords[i];
+      let rand = Math.floor(Math.random() * allStreets.streets.length);
+      allStreets.streets[i] = allStreets.streets[rand];
+      allStreets.streets[rand] = temp;
+      allStreets.coords[i] = allStreets.coords[rand];
+      allStreets.coords[rand] = tempc;
+    }
     // 2. Obtain the street names
     // 3. Create and return the game
     this.gameData[gameCode] = {
       gameCode: gameCode,
       cityName: cityName,
-      allNames: [
-        "Bob Avenue",
-        "Alice Avenue",
-        "E Peltason Drive"
-      ],
+      allStreets: allStreets,
       currentNameIndex: 0,
       currentSecondsLeft: 30,
       totalSeconds: 30,
@@ -71,5 +92,4 @@ class GameData {
     }
   }
 };
-
 module.exports = GameData;

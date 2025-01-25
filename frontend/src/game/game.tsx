@@ -15,7 +15,10 @@ export default function GamePage(){
     const [gameData, setGameData] = useState({
         gameCode: "Loading...",
         cityName: "City Data Loading",
-        allNames: ["Loading..."],
+        allStreets: {
+            streets: ['...Loading'],
+            coords: [[0,0]]
+        },
         currentNameIndex: 0,
         currentSecondsLeft: 1,
         totalSeconds: 1,
@@ -47,9 +50,9 @@ export default function GamePage(){
         // Generate the street name
         // TODO: if we have a special character, affect this?
         let res = ""
-        for (let i = 0; i < gameData.allNames[gameData.currentNameIndex].length; i++) {
+        for (let i = 0; i < gameData.allStreets.streets[gameData.currentNameIndex].length; i++) {
             if (gameData.currentNamePortions.includes(i)) {
-                res += gameData.allNames[gameData.currentNameIndex][i];
+                res += gameData.allStreets.streets[gameData.currentNameIndex][i];
             } else {
                 // Hidden
                 res += "_"

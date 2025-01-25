@@ -11,7 +11,7 @@ const io = new Server(server, {
       methods: ["GET", "POST"],
     },
   });
-const GameData = require('./gamedata.js');
+const GameData = require('./gamedata');
 
 // Game data
 // TODO: extract this to a database eventually
