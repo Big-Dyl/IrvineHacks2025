@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
@@ -9,11 +7,20 @@ function App() {
 
   const hostGame = () => {
     // Create the game, and go to the corresponding URL
+    // TODO: create the actual thing
+    const newUrl = new URL(document.location + "./game");
+    newUrl.searchParams.append("selectedChar", ("" + selectedChar));
+    newUrl.searchParams.append("roomCode", roomCode);
+    window.location.href = newUrl.toString();
   };
 
   const joinGame = () => {
     // Join the game, and go to the corresponding URL
     // TODO: does it exist?
+    const newUrl = new URL(document.location + "./game");
+    newUrl.searchParams.append("selectedChar", ("" + selectedChar));
+    newUrl.searchParams.append("roomCode", roomCode);
+    window.location.href = newUrl.toString();
   };
 
   return (
