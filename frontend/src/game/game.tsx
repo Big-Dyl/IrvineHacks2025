@@ -23,10 +23,11 @@ export default function GamePage(){
     const params = new URLSearchParams(document.location.search);
     const roomCode = params.get("roomCode");
     const selectedChar = params.get("selectedChar");
+    const playerName = params.get("playerName");
 
     useEffect(() => {
         // Let the server know that we have joined
-        socket.emit("joinGame", { gameCode: roomCode, selectedChar: selectedChar });
+        socket.emit("joinGame", { gameCode: roomCode, selectedChar: selectedChar, playerName: playerName });
     }, []);
 
     useEffect(() => {

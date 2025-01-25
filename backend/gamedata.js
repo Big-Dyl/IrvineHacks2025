@@ -66,7 +66,8 @@ class GameData {
       allStreets: allStreets,
       currentNameIndex: 0,
       currentSecondsLeft: 30,
-      currentNamePortions: []
+      currentNamePortions: [],
+      chat: []
     };
     return gameCode;
   }
@@ -74,6 +75,14 @@ class GameData {
   getGame(gameCode) {
     return this.gameData[gameCode];
   }
+
+  guess(player, str) {
+    let game = getGame(player.gameCode) 
+    if(game.allStreets.streets[game.currentNameIndex] == str){
+      player.addPoints(30/game.currentSecondsLeft);
+    }
+  }
+  
 
   updateGamesByOneSecond() {
     for (const key of Object.keys(this.gameData)) {

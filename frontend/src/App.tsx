@@ -23,13 +23,19 @@ function App() {
   const [selectedChar, setSelectedChar] = useState(0);
   const [roomCode, setRoomCode] = useState("");
   const [cityName, setCityName] = useState("");
+  const [playerName, setPlayerName] = useState("");
 
+  function constructURL(gameCode : string){
+    const newUrl = new URL(document.location + "./game");
+    newUrl.searchParams.append("selectedChar", ("" + selectedChar));
+    newUrl.searchParams.append("roomCode", gameCode);
+    newUrl.searchParams.append("playerName", playerName);
+    return newUrl;
+  }
   useEffect(() => {
     socket.on("gameCreated", (gameCode) => {
       // Go to the corresponding URL
-      const newUrl = new URL(document.location + "./game");
-      newUrl.searchParams.append("selectedChar", ("" + selectedChar));
-      newUrl.searchParams.append("roomCode", gameCode);
+      const newUrl = constructURL(gameCode);
       window.location.href = newUrl.toString();
     });
   }, []);
@@ -46,6 +52,7 @@ function App() {
     const newUrl = new URL(document.location + "./game");
     newUrl.searchParams.append("selectedChar", ("" + selectedChar));
     newUrl.searchParams.append("roomCode", roomCode);
+    newUrl.searchParams.append("playerName", playerName);
     window.location.href = newUrl.toString();
   };
 
@@ -63,6 +70,7 @@ function App() {
             type='text'
             placeholder='Enter your name'
             style={{width: 180}}
+            onChange={e => setPlayerName(e.target.value)}
           />
           <div className='ml-20'>
             <Label htmlFor='roomcode' className='text-white'>Enter a room code to join:</Label>
