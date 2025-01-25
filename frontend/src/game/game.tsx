@@ -1,7 +1,11 @@
-export default function gamePage(){
+import { Button } from "@/components/ui/button";
+export default function GamePage(){
     return (
         <div>
-            This is game page.
+            <div className="text-5xl">
+                This is game page.
+            </div>
+            <Button>sad</Button>
         </div>
     );
 }
