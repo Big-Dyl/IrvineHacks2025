@@ -6,6 +6,7 @@ import '../App.css'
 import * as L from 'https://unpkg.com/leaflet@1.8.0/dist/leaflet-src.esm.js'
 //import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
+import { MapContainer } from 'react-leaflet'
 
 import socket from '../socket'
 
