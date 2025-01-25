@@ -42,7 +42,11 @@ const cities = [
   },
 ]
 
-export function ComboboxDemo() {
+interface ComboboxProps{
+    setCity: (city: string) => void;
+};
+
+export const ComboboxDemo: React.FC<ComboboxProps> = ({setCity})=>{
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
 
@@ -73,6 +77,7 @@ export function ComboboxDemo() {
                   value={city.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue)
+                    setCity(currentValue === value ? "" : currentValue)
                     setOpen(false)
                   }}
                 >

@@ -71,22 +71,22 @@ function App() {
               placeholder='Roomcode'
               className='border-4 h-12 bg-white'
               style={{width: 180}}
+              onChange={e => setRoomCode(e.target.value)}
             />
           </div>
-          <Button className='bg-black text-white h-12 ml-2'>Hop on!</Button>
+          <Button className='bg-black text-white h-12 ml-2' onClick={joinGame}>Hop on!</Button>
 
           <div className='ml-20'>
             <Label htmlFor='' className='text-white shadow-lg'>Or select a city to host:</Label>
-            <ComboboxDemo/>
+            <ComboboxDemo setCity={setCityName}/>
           </div>
-          <Button className='bg-black text-white h-12 ml-2'>Host it!</Button>
+          <Button className='bg-black text-white h-12 ml-2' onClick={hostGame}>Host it!</Button>
 
         </div>
         
         <div className='flex justify-center'>
           <div className='relative'>
-            <input placeholder="Enter a city name" value={cityName} onChange={e => setCityName(e.target.value)} />
-            <br />
+            
             <img src={Brush} className='w-100 h-12'/>
             <div className='absolute inset-0 font-sans text-white text-2xl flex justify-center'>Select your characters:</div>
           </div>
