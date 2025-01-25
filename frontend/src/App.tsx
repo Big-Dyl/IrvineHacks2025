@@ -5,11 +5,17 @@ import { Label } from "@/components/ui/label"
 
 import { ComboboxDemo } from './game/citybox'
 import { Button } from "@/components/ui/button"
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+
 
 import Pioneer from "./assets/PeterAnteater-new_canvas.png"
 import Rouge from "./assets/Rouge.png"
 import Peter from "./assets/Peter_AntEater.png"
-
+import Brush from "./assets/green.png"
 
 function App() {
   const [selectedChar, setSelectedChar] = useState(0);
@@ -38,8 +44,8 @@ function App() {
 
   return (
     <>
-      <div className='mx-auto w-4/5 h-screen border-4 border-blue border-dashed'>
-        <h1 className='font-bold text-white text-6xl flex justify-center mt-24 border-t-20 py-4 border-b-20'>- - - - - - - - -  🧐 SpeedStreets 🏙  - - - - - - - - -</h1>
+      <div className='mx-auto w-4/5 h-screen mt-16'>
+        <h1 className='font-bold text-white text-6xl flex justify-center border-t-20 py-4 border-b-20'>- - - - - - - - -  🧐 SpeedStreets 🏙  - - - - - - - - -</h1>
         <div id='inputs' className='flex items-end justify-center mx-auto my-18 w-1/2 h-200px'>
           
           <Input
@@ -66,11 +72,47 @@ function App() {
           <Button className='bg-black text-white h-12 ml-2'>Host it!</Button>
 
         </div>
-        <div className='font-sans text-white text-2xl flex justify-center mt-18'>Select your characters:</div>
-        <div className='flex mx-auto w-4/5 mt-10 justify-center'>
-          <img src={Peter} className={`w-80 h-80 object-contain p-4 ${choice==0? 'rounded-full outline-1' : ''}`} onClick={()=>{setChoice(0)}}/>
-          <img src={Pioneer} className={`w-80 h-80 object-contain p-4 ${choice==1? 'rounded-full outline-1' : ''}` } onClick={()=>{setChoice(1)}}/>
-          <img src={Rouge} className={`w-80 h-80 object-contain p-4 ${choice==2? 'rounded-full outline-1' : ''}` } onClick={()=>{setChoice(2)}}/>
+        
+        <div className='flex justify-center'>
+          <div className='relative'>
+            <img src={Brush} className='w-100 h-12'/>
+            <div className='absolute inset-0 font-sans text-white text-2xl flex justify-center'>Select your characters:</div>
+          </div>
+        </div>
+        <div className='flex mx-auto w-4/5 mt-4 justify-center'>
+          <HoverCard>
+            <HoverCardTrigger>
+              <img src={Peter} className={`w-80 h-80 object-contain p-4 ${choice==0? 'rounded-full outline-1' : ''}`} onClick={()=>{setChoice(0)}}/>
+              <div className='flex justify-center font-serif text-2xl'>Peter</div>
+            </HoverCardTrigger>
+            <HoverCardContent className='bg-white'>
+              <div className='text-2xl font-serif'>Peter, a humble anteater explorer.</div>
+              <div>which means you have no special abilities :P</div>
+            </HoverCardContent>
+          </HoverCard>
+
+          <HoverCard>
+            <HoverCardTrigger>
+            <img src={Pioneer} className={`w-80 h-80 object-contain p-4 ${choice==1? 'rounded-full outline-1' : ''}` } onClick={()=>{setChoice(1)}}/>
+              <div className='flex justify-center font-serif text-2xl'>Pioneer</div>
+            </HoverCardTrigger>
+            <HoverCardContent className='bg-white'>
+              <div className='text-2xl font-serif'>Pioneer, a geography expert.</div>
+              <div>Get more hints but also fewer scores on correct answer.</div>
+            </HoverCardContent>
+          </HoverCard>
+
+          <HoverCard>
+            <HoverCardTrigger>
+            <img src={Rouge} className={`w-80 h-80 object-contain p-4 ${choice==2? 'rounded-full outline-1' : ''}` } onClick={()=>{setChoice(2)}}/>
+              <div className='flex justify-center font-serif text-2xl'>Rouge</div>
+            </HoverCardTrigger>
+            <HoverCardContent className='bg-white'>
+              <div className='text-2xl font-serif'>Rouge, the impatient.</div>
+              <div>Get <span className='font-bold'>1.5x scores</span> if answering in first <span className='font-bold'>10 seconds</span>, but get <span className='font-bold'>0.5 scores</span> if answering in last <span className='font-bold'>5 seconds</span>.</div>
+            </HoverCardContent>
+          </HoverCard>
+
         </div>
       </div>
     </>
