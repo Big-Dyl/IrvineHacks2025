@@ -18,6 +18,7 @@ import Pioneer from "./assets/PeterAnteater-new_canvas.png"
 import Rouge from "./assets/Rouge.png"
 import Peter from "./assets/Peter_AntEater.png"
 import Brush from "./assets/green.png"
+import Wizard from "./assets/WizardAnteater.png"
 
 function App() {
   const [selectedChar, setSelectedChar] = useState(0);
@@ -122,6 +123,17 @@ function App() {
             <HoverCardContent className='bg-white'>
               <div className='text-2xl font-serif'>Rouge, the impatient.</div>
               <div>Get <span className='font-bold'>1.5x scores</span> if answering in first <span className='font-bold'>10 seconds</span>, but get <span className='font-bold'>0.5 scores</span> if answering in last <span className='font-bold'>5 seconds</span>.</div>
+            </HoverCardContent>
+          </HoverCard>
+
+          <HoverCard>
+            <HoverCardTrigger>
+            <img src={Wizard} className={`w-80 h-80 object-contain p-4 ${choice==3? 'rounded-full outline-1' : ''}` } onClick={()=>{setChoice(3); setSelectedChar(3);}}/>
+              <div className='flex justify-center font-serif text-2xl'>Wizard</div>
+            </HoverCardTrigger>
+            <HoverCardContent className='bg-white'>
+              <div className='text-2xl font-serif'>Wizard Anteater</div>
+              <div>Get random bonus and punishment.</div>
             </HoverCardContent>
           </HoverCard>
 
