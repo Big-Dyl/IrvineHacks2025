@@ -80,7 +80,7 @@ class GameData {
       // Update the game
       this.gameData[key].currentSecondsLeft -= 1;
       // Based on seconds left, reveal another letter
-      if (this.gameData[key].currentSecondsLeft % 2 == 0) {
+      if (this.gameData[key].currentSecondsLeft % Math.floor(30/this.gameData[key].allStreets.streets[this.gameData[key].currentNameIndex].length) == 0) {
         // TODO: fix this logic
         if (this.gameData[key].currentNamePortions.length == 0) {
           this.gameData[key].currentNamePortions.push(0);

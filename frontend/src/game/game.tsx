@@ -40,13 +40,13 @@ export default function GamePage(){
     const getStreetName = () => {
         // Generate the street name
         // TODO: if we have a special character, affect this?
-        let res = ""
+        let res = "";
         for (let i = 0; i < gameData.allStreets.streets[gameData.currentNameIndex].length; i++) {
-            if (gameData.currentNamePortions.includes(i)) {
+            if (gameData.currentNamePortions.includes(i) || gameData.allStreets.streets[gameData.currentNameIndex][i] == " ") {
                 res += gameData.allStreets.streets[gameData.currentNameIndex][i];
             } else {
                 // Hidden
-                res += "_"
+                res += "_";
             }
         }
         return res;
