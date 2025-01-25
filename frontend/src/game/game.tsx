@@ -6,9 +6,42 @@ import '../App.css'
 import * as L from 'https://unpkg.com/leaflet@1.8.0/dist/leaflet-src.esm.js'
 //import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
-import { MapContainer } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet'
 
 import socket from '../socket'
+
+function ChangeView(props: {
+    center_first: number,
+    center_second: number,
+    zoom: number
+}) {
+    const map = useMap();
+    map.setView([props.center_first, props.center_second], props.zoom);
+    console.log(props.center_second, props.center_first);
+
+    return null;
+}
+
+function MyMap(props: {
+    center_first: number,
+    center_second: number,
+    zoom: number
+}) {
+    return (
+        <div className="map">
+            <MapContainer
+                center={[props.center_second, props.center_first]} zoom={props.zoom} scrollWheelZoom={false}
+                style={{"height": "90vh"}}
+            >
+                <ChangeView center_first={props.center_first} center_second={props.center_second} zoom={props.zoom} />
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+            </MapContainer>
+        </div>
+    )
+}
 
 export default function GamePage(){
 
@@ -17,7 +50,7 @@ export default function GamePage(){
         cityName: "City Data Loading",
         allStreets: {
             streets: ['...Loading'],
-            coords: [[0,0]]
+            coords: [[-117, 43]]
         },
         currentNameIndex: 0,
         currentSecondsLeft: 1,
@@ -46,6 +79,11 @@ export default function GamePage(){
         });
     }, []);
 
+    const updateMapLocation = () => {
+        const map = useMap();
+        map.setView([gameData.allStreets.coords[gameData.currentNameIndex][1], gameData.allStreets.coords[gameData.currentNameIndex][0]], getZoomAmount());
+    }
+
     const getStreetName = () => {
         // Generate the street name
         // TODO: if we have a special character, affect this?
@@ -61,13 +99,27 @@ export default function GamePage(){
         return res;
     };
 
+    // Get the zoom amount
+    const getZoomAmount = () => {
+        //return Math.min(30, Math.max(14, 10 + (1 - (gameData.currentSecondsLeft / gameData.totalSeconds)) * 20));
+        // Zooming out slowly
+        const minZoom = 14;
+        const maxZoom = 20;
+        const percentFinished = Math.max(0, Math.min(1, gameData.currentSecondsLeft / gameData.totalSeconds));
+        console.log(percentFinished);
+        const res = minZoom + (maxZoom - minZoom) * percentFinished;
+        console.log(res);
+        return res;
+    }
+
     // Map setup
     useEffect(() => {
+        return;
         let map = L.map('map').setView([51.505, -0.09], 13);
-        /*L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            }).addTo(map);*/
+            }).addTo(map);
         let Stadia_StamenWatercolor = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.{ext}', {
             minZoom: 1,
             maxZoom: 16,
@@ -119,7 +171,24 @@ export default function GamePage(){
                 </span>
             </div>
             The map will zoom in on the street:
-            <div id="map" style={{"width": "100%", "height": "60vh"}}></div>
+            {/*<div id="map" style={{"width": "100%", "height": "60vh"}}></div>*/}
+            <MyMap center_first={gameData.allStreets.coords[gameData.currentNameIndex][1]} center_second={gameData.allStreets.coords[gameData.currentNameIndex][0]} zoom={getZoomAmount()} />
         </div>
     );
+    // attribution = '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    //url = 'https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.{ext}'
+
+
+            /*<MapContainer
+                style={{"height": "90vh"}}
+                className="markercluster-map"
+                center={[51.0, 19.0]}
+                zoom={4}
+                maxZoom={18}
+            >
+                <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                />
+                </MapContainer>*/
 }
