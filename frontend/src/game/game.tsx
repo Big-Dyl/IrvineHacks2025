@@ -50,7 +50,7 @@ export default function GamePage(){
         cityName: "City Data Loading",
         allStreets: {
             streets: ['...Loading'],
-            coords: [[-117, 43]]
+            coords: [[0, 0]]
         },
         currentNameIndex: 0,
         currentSecondsLeft: 1,
