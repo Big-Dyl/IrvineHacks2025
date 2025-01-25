@@ -7,15 +7,24 @@ Our hackathon project for IrvineHacks 2025
 Development frontend:
 ```sh
 cd ./frontend/
+npm install
 npm run dev
 ```
 
 Development backend:
 ```sh
 cd ./backend/
+npm install
 node index.js
 ```
 
 ## Technologies
+
+ Frontend:
 - Vite and React
-- Tailwind CSS?
+- Tailwind CSS
+
+Backend:
+- Node.js
+- Express
+- Socket
