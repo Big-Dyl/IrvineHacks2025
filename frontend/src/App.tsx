@@ -1,35 +1,64 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [selectedChar, setSelectedChar] = useState(0);
+  const [roomCode, setRoomCode] = useState("");
+
+  const hostGame = () => {
+    // Create the game, and go to the corresponding URL
+    // TODO: create the actual thing
+    const newUrl = new URL(document.location + "./game");
+    newUrl.searchParams.append("selectedChar", ("" + selectedChar));
+    newUrl.searchParams.append("roomCode", roomCode);
+    window.location.href = newUrl.toString();
+  };
+
+  const joinGame = () => {
+    // Join the game, and go to the corresponding URL
+    // TODO: does it exist?
+    const newUrl = new URL(document.location + "./game");
+    newUrl.searchParams.append("selectedChar", ("" + selectedChar));
+    newUrl.searchParams.append("roomCode", roomCode);
+    window.location.href = newUrl.toString();
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
+      <h1>SpeedStreets</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        <div>
+        </div>
+        <br />
+        <div>
+          Select your character:
+          <div>
+            <button style={selectedChar == 0 ? {} : {"backgroundColor": "black"}} onClick={() => setSelectedChar(0)}>Peter</button>
+            <button style={selectedChar == 1 ? {} : {"backgroundColor": "black"}}  onClick={() => setSelectedChar(1)}>Pioneer</button>
+            <button style={selectedChar == 2 ? {} : {"backgroundColor": "black"}}  onClick={() => setSelectedChar(2)}>Rogue</button>
+          </div>
+        </div>
+        <br />
+        <br />
+        <div style={{"display": "flex", "alignItems": "center"}}>
+          <div>
+            <input placeholder="Room Code" value={roomCode} onChange={e => setRoomCode(e.target.value)} />
+            <br />
+            <button onClick={joinGame}>Join Game!</button>
+          </div>
+          <div style={{"margin": "20px"}}>
+            OR
+          </div>
+          <div>
+            <button onClick={hostGame}>Host Game!</button>
+          </div>
+        </div>
       </div>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+        Created for IrvineHacks 2025
       </p>
     </>
-  )
+  );
 }
 
 export default App
