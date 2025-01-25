@@ -1,4 +1,7 @@
 const streets = require('./streets');
+
+const TOTAL_SECONDS_PER_ROUND = 20;
+
 class GameData {
   constructor() {
     // Store the game data
@@ -65,8 +68,8 @@ class GameData {
       cityName: cityName,
       allStreets: allStreets,
       currentNameIndex: 0,
-      currentSecondsLeft: 30,
-      totalSeconds: 30,
+      currentSecondsLeft: TOTAL_SECONDS_PER_ROUND,
+      totalSeconds: TOTAL_SECONDS_PER_ROUND,
       currentNamePortions: []
     };
     return gameCode;
@@ -74,6 +77,15 @@ class GameData {
 
   getGame(gameCode) {
     return this.gameData[gameCode];
+  }
+
+  moveToNextName(gameCode) {
+    this.gameData[gameCode].currentNameIndex++;
+    if (this.gameData[gameCode].currentNameIndex >= this.gameData[gameCode].allStreets.streets.length) {
+      // Finished completely
+      // TODO: handle
+      this.gameData[gameCode].currentNameIndex = 0;
+    }
   }
 
   updateGamesByOneSecond() {
@@ -88,6 +100,13 @@ class GameData {
         } else {
           this.gameData[key].currentNamePortions.push(this.gameData[key].currentNamePortions[this.gameData[key].currentNamePortions.length - 1] + 1);
         }
+      }
+      // Have we reached the end?
+      if (this.gameData[key].currentSecondsLeft <= 0) {
+        // TODO: clear the chat
+        this.gameData[key].currentSecondsLeft = TOTAL_SECONDS_PER_ROUND;
+        this.gameData[key].currentNamePortions = [];
+        this.moveToNextName(key);
       }
     }
   }
