@@ -8,6 +8,7 @@ import socket from '../socket'
 export default function GamePage(){
 
     const [gameData, setGameData] = useState({
+        gameCode: "Loading...",
         cityName: "City Data Loading",
         allNames: ["Loading..."],
         currentNameIndex: 0,
@@ -33,14 +34,35 @@ export default function GamePage(){
         });
     }, []);
 
+    const getStreetName = () => {
+        // Generate the street name
+        // TODO: if we have a special character, affect this?
+        let res = ""
+        for (let i = 0; i < gameData.allNames[gameData.currentNameIndex].length; i++) {
+            if (gameData.currentNamePortions.includes(i)) {
+                res += gameData.allNames[gameData.currentNameIndex][i];
+            } else {
+                // Hidden
+                res += "_"
+            }
+        }
+        return res;
+    };
+
     return (
         <div>
-            <div className="text-5xl">
-                {gameData.cityName}
+            Anyone can enter this Room Code to join: <b>{gameData.gameCode}</b>
+            <br />
+            <div className="text-3xl">
+                Guess this street name in <b>{gameData.cityName}</b>
                 <br />
                 Seconds left: <span>{gameData.currentSecondsLeft}</span>
             </div>
-            <Button>sad</Button>
+            <br />
+            <br />
+            <div className="text-5xl">
+                <span style={{"letterSpacing": "0.2rem"}}>{getStreetName()}</span>
+            </div>
         </div>
     );
 }

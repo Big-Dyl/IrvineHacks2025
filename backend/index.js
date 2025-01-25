@@ -24,14 +24,14 @@ io.on('connection', (socket) => {
     // Add the user
     users[socket.id] = undefined;
 
-    socket.on('hello', (count) => {
-        console.log(count + 1);
-    });
-
     // Let a user join a game of a code with info
     socket.on('joinGame', (data) => {
         console.log('USER JOINED ROOM: code = ' + data.gameCode + ', char = ' + data.selectedChar + ', id = ' + socket.id);
-        users[socket.id] = { gameCode: data.gameCode, selectedChar: data.selectedChar };
+        try {
+            users[socket.id] = { gameCode: data.gameCode.toUpperCase(), selectedChar: data.selectedChar };
+        } catch (err) {
+            console.log("ERROR: user cannot join room, data = " + JSON.stringify(data));
+        }
     });
 
     // Create the game and emit back the game code once it is done
@@ -57,16 +57,15 @@ setInterval(() => {
             continue;
         }
         console.log("    (Updating game for user): id = " + userId + ", code = " + value.gameCode);
-        //try {
+        try {
             let thisGame = gameData.getGame(value.gameCode)
-        console.log("      (Sending): " + JSON.stringify(thisGame));
             io.to(userId).emit("updateGame", thisGame);
-        //} catch (err) {
+        } catch (err) {
             // Could not find the game; it's probably gone
-            //console.log("ERR: could not get game for user: id = " + userId + ", code = " + value.gameCode);
-            //console.log(err);
-            //continue;
-        //}
+            console.log("ERR: could not get game for user: id = " + userId + ", code = " + value.gameCode);
+            console.log(err);
+            continue;
+        }
     }
 }, 1000);
   

@@ -36,6 +36,7 @@ class GameData {
     // 2. Obtain the street names
     // 3. Create and return the game
     this.gameData[gameCode] = {
+      gameCode: gameCode,
       cityName: cityName,
       allNames: [
         "Bob Avenue",
@@ -57,6 +58,15 @@ class GameData {
     for (const key of Object.keys(this.gameData)) {
       // Update the game
       this.gameData[key].currentSecondsLeft -= 1;
+      // Based on seconds left, reveal another letter
+      if (this.gameData[key].currentSecondsLeft % 2 == 0) {
+        // TODO: fix this logic
+        if (this.gameData[key].currentNamePortions.length == 0) {
+          this.gameData[key].currentNamePortions.push(0);
+        } else {
+          this.gameData[key].currentNamePortions.push(this.gameData[key].currentNamePortions[this.gameData[key].currentNamePortions.length - 1] + 1);
+        }
+      }
     }
   }
 };
