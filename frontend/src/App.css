@@ -1,1 +1,23 @@
 @import "tailwindcss";
+
+body{
+    background-color: #b5b59a;
+}
+
+.maindiv{
+    border-left: 4px dashed;
+    border-right: 4px dashed;
+    height: 80vh;
+}
+
+.jump{
+    animation: jump 0.5 ease-in-out;
+}
+@keyframes jump{
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50%{
+        transform: translateY(-50px);
+    }
+}
