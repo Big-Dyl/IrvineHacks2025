@@ -94,7 +94,7 @@ function App() {
         <div className='flex mx-auto w-4/5 mt-4 justify-center'>
           <HoverCard>
             <HoverCardTrigger>
-              <img src={Peter} className={`w-80 h-80 object-contain p-4 ${choice==0? 'rounded-full outline-1' : ''}`} onClick={()=>{setChoice(0)}}/>
+              <img src={Peter} className={`w-80 h-80 object-contain p-4 ${choice==0? 'rounded-full outline-1' : ''}`} onClick={()=>{setChoice(0); setSelectedChar(0);}}/>
               <div className='flex justify-center font-serif text-2xl'>Peter</div>
             </HoverCardTrigger>
             <HoverCardContent className='bg-white'>
@@ -105,7 +105,7 @@ function App() {
 
           <HoverCard>
             <HoverCardTrigger>
-            <img src={Pioneer} className={`w-80 h-80 object-contain p-4 ${choice==1? 'rounded-full outline-1' : ''}` } onClick={()=>{setChoice(1)}}/>
+            <img src={Pioneer} className={`w-80 h-80 object-contain p-4 ${choice==1? 'rounded-full outline-1' : ''}` } onClick={()=>{setChoice(1);setSelectedChar(1);}}/>
               <div className='flex justify-center font-serif text-2xl'>Pioneer</div>
             </HoverCardTrigger>
             <HoverCardContent className='bg-white'>
@@ -116,7 +116,7 @@ function App() {
 
           <HoverCard>
             <HoverCardTrigger>
-            <img src={Rouge} className={`w-80 h-80 object-contain p-4 ${choice==2? 'rounded-full outline-1' : ''}` } onClick={()=>{setChoice(2)}}/>
+            <img src={Rouge} className={`w-80 h-80 object-contain p-4 ${choice==2? 'rounded-full outline-1' : ''}` } onClick={()=>{setChoice(2); setSelectedChar(2);}}/>
               <div className='flex justify-center font-serif text-2xl'>Rouge</div>
             </HoverCardTrigger>
             <HoverCardContent className='bg-white'>
