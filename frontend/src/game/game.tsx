@@ -79,7 +79,7 @@ export default function GamePage(){
         map.keyboard.disable();
         if (map.tap) map.tap.disable();
         document.getElementById('map')!.style.cursor='default';
-        //mapRef.current!.mapRefObj = map;
+        /*//mapRef.current!.mapRefObj = map;
         //setMainMap(map);
         //updateMap();
         setInterval(() => {
@@ -90,11 +90,11 @@ export default function GamePage(){
             console.log("Map update with new zoom " + newZoom);
             map.setZoom(newZoom);
         }, 1000);
-        //document.theMap = map;
-    }, [useState, gameData]);
+        //document.theMap = map;*/
+    }, [/*gameData*/]);
 
+    // crossorigin="" was included originally in the leaflet stylesheet and script
     return (
-        // crossorigin="" was included originally in the leaflet stylesheet and script
         <div>
             <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
                 integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" />
