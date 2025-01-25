@@ -91,5 +91,4 @@ class GameData {
     }
   }
 };
-let a = new GameData().createGame("boston")
 module.exports = GameData;
