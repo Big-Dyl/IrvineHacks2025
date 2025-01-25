@@ -45,6 +45,7 @@ class GameData {
       ],
       currentNameIndex: 0,
       currentSecondsLeft: 30,
+      totalSeconds: 30,
       currentNamePortions: []
     };
     return gameCode;

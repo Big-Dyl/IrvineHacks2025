@@ -20,11 +20,13 @@ node index.js
 
 ## Technologies
 
- Frontend:
+Frontend:
 - Vite and React
 - Tailwind CSS
+- Leaflet, including data from OpenStreetMap using the Stadia.StamenWatercolor provider
 
 Backend:
 - Node.js
 - Express
 - Socket
+- The OpenStreetMap/Overpass API
