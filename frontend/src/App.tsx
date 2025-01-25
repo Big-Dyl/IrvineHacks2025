@@ -1,17 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
+
+import socket from './socket'
 
 function App() {
   const [selectedChar, setSelectedChar] = useState(0);
   const [roomCode, setRoomCode] = useState("");
+  const [cityName, setCityName] = useState("");
+
+  useEffect(() => {
+    socket.on("gameCreated", (gameCode) => {
+      // Go to the corresponding URL
+      const newUrl = new URL(document.location + "./game");
+      newUrl.searchParams.append("selectedChar", ("" + selectedChar));
+      newUrl.searchParams.append("roomCode", gameCode);
+      window.location.href = newUrl.toString();
+    });
+  }, []);
 
   const hostGame = () => {
-    // Create the game, and go to the corresponding URL
+    // Create the game; wait for the message back to navigate
     // TODO: create the actual thing
-    const newUrl = new URL(document.location + "./game");
-    newUrl.searchParams.append("selectedChar", ("" + selectedChar));
-    newUrl.searchParams.append("roomCode", roomCode);
-    window.location.href = newUrl.toString();
+    socket.emit("createGame", cityName);
   };
 
   const joinGame = () => {
@@ -50,6 +60,8 @@ function App() {
             OR
           </div>
           <div>
+            <input placeholder="Enter a city name" value={cityName} onChange={e => setCityName(e.target.value)} />
+            <br />
             <button onClick={hostGame}>Host Game!</button>
           </div>
         </div>

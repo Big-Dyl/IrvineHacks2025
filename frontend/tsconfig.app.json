@@ -21,7 +21,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-
+    "types": ["node"],
     "baseUrl": ".",
     "paths": {
       "@/*": [
@@ -29,6 +29,5 @@
       ]
     }
   },
-  "include": ["src"],
-  
+  "include": ["src"]
 }
