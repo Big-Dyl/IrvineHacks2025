@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+
+import socket from './socket'
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
@@ -20,14 +22,22 @@ import Brush from "./assets/green.png"
 function App() {
   const [selectedChar, setSelectedChar] = useState(0);
   const [roomCode, setRoomCode] = useState("");
+  const [cityName, setCityName] = useState("");
+
+  useEffect(() => {
+    socket.on("gameCreated", (gameCode) => {
+      // Go to the corresponding URL
+      const newUrl = new URL(document.location + "./game");
+      newUrl.searchParams.append("selectedChar", ("" + selectedChar));
+      newUrl.searchParams.append("roomCode", gameCode);
+      window.location.href = newUrl.toString();
+    });
+  }, []);
 
   const hostGame = () => {
-    // Create the game, and go to the corresponding URL
+    // Create the game; wait for the message back to navigate
     // TODO: create the actual thing
-    const newUrl = new URL(document.location + "./game");
-    newUrl.searchParams.append("selectedChar", ("" + selectedChar));
-    newUrl.searchParams.append("roomCode", roomCode);
-    window.location.href = newUrl.toString();
+    socket.emit("createGame", cityName);
   };
 
   const joinGame = () => {
@@ -75,6 +85,8 @@ function App() {
         
         <div className='flex justify-center'>
           <div className='relative'>
+            <input placeholder="Enter a city name" value={cityName} onChange={e => setCityName(e.target.value)} />
+            <br />
             <img src={Brush} className='w-100 h-12'/>
             <div className='absolute inset-0 font-sans text-white text-2xl flex justify-center'>Select your characters:</div>
           </div>
