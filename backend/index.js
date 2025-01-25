@@ -9,11 +9,31 @@ const io = new Server(server, {
       methods: ["GET", "POST"],
     },
   });
+const GameData = require('./gamedata.js');
+
+// Game data
+// TODO: extract this to a database eventually
+const gameData = new GameData();
+
 io.on('connection', (socket) => {
-    console.log('a user connected');
-    socket.on('hello',(count)=>{
+
+    console.log('USER CONNECTED: ' + socket.id);
+
+    socket.on('hello', (count) => {
         console.log(count + 1);
-    })
+    });
+
+    // Create the game and emit back the game code once it is done
+    socket.on('createGame', (cityName) => {
+        try {
+            gameData.createGame(cityName).then((gameCode) => {
+                console.log('GAME CREATED: code = ' + gameCode + ', city = ' + cityName);
+                socket.emit('gameCreated', gameCode);
+            });
+        } catch (err) {
+            socket.emit('errorGameCreated');
+        }
+    });
   });
   
 server.listen(3000, () => {
