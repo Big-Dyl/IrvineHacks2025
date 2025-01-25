@@ -56,7 +56,7 @@ function App() {
   return (
     <>
       <div className='mx-auto w-4/5 h-screen mt-16'>
-        <h1 className='font-bold text-white text-6xl flex justify-center border-t-20 py-4 border-b-20'>- - - - - - - - -  🧐 SpeedStreets 🏙  - - - - - - - - -</h1>
+        <h1 className='mx-auto w-2/3 font-bold text-white text-6xl flex justify-center border-t-20 py-4 border-b-20'>- - 🧐 SpeedStreets 🏙 - -</h1>
         <div id='inputs' className='flex items-end justify-center mx-auto my-18 w-1/2 h-200px'>
           
           <Input
@@ -78,8 +78,14 @@ function App() {
           <Button className='bg-black text-white h-12 ml-2' onClick={joinGame}>Hop on!</Button>
 
           <div className='ml-20'>
-            <Label htmlFor='' className='text-white shadow-lg'>Or select a city to host:</Label>
-            <ComboboxDemo setCity={setCityName}/>
+            <Label htmlFor='cityname' className='text-white shadow-lg'>Or select a city to host:</Label>
+            <Input
+              id='cityname'
+              placeholder='City name.'
+              className='border-4 h-12 bg-white'
+              style={{width: 180}}
+              onChange={e=>setCityName(e.target.value)}
+            />
           </div>
           <Button className='bg-black text-white h-12 ml-2' onClick={hostGame}>Host it!</Button>
 
