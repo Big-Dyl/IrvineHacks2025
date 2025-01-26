@@ -67,14 +67,14 @@ class GameData {
     return Object.keys(this.gameData).includes(gameCode);
   }
 
-  guess(player, str) {
+  guess(player, str, playerCount) {
     // TODO: fully implement/check
     if (this.gameData[player.gameCode].playersSuccessful.includes(player.gameCode)) {
       // Already answered
       return;
     }
 
-    if (this.gameData[player.gameCode].allStreets.streets[this.gameData[player.gameCode].currentNameIndex] == str) {
+    if (this.gameData[player.gameCode].allStreets.streets[this.gameData[player.gameCode].currentNameIndex].toLowerCase().trim() == str.toLowerCase().trim()) {
       const pointsToAdd = Math.floor(TOTAL_SECONDS_PER_ROUND/this.gameData[player.gameCode].currentSecondsLeft);
       player.addPoints(pointsToAdd);
       this.gameData[player.gameCode].chat.unshift(player.name + " guessed the street name");
@@ -83,9 +83,8 @@ class GameData {
       this.gameData[player.gameCode].chat.unshift(player.name + ":  " + guess);
     }
 
-    // Check if we have done everything already
-    // TODO: change the condition to check based on the player count, from a utility in index
-    if (false) {
+    // Check if everyone has already answered correctly
+    if (this.gameData[player.gameCode].playersSuccessful.length >= playerCount) {
       moveToNextName();
     }
   }
