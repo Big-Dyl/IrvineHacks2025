@@ -50,7 +50,7 @@ io.on('connection', (socket) => {
 
     // Check a code is valid before joining
     socket.on('checkValidCode', (gameCode) => {
-        if (gameData.doesGameCodeExist(gameCode)) {
+        if (gameData.doesGameCodeExist(gameCode.toUpperCase())) {
             socket.emit('successJoining');
         } else {
             socket.emit('errorJoining');
