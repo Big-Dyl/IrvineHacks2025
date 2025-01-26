@@ -48,6 +48,12 @@ io.on('connection', (socket) => {
         }
     });
 
+    socket.on("isGameValid", (gameCode)=>{
+        if(!gameData.doesGameCodeExist(gameCode.toUpperCase())){
+            socket.emit("invalidRoom");
+        }
+    })
+
     // Check a code is valid before joining
     socket.on('checkValidCode', (gameCode) => {
         if (gameData.doesGameCodeExist(gameCode.toUpperCase())) {
