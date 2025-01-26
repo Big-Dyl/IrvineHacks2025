@@ -96,6 +96,7 @@ function getPlayersInRoom(roomCode){
             output.push(users[userId]);
         }
     }
+    return output.sort((a,b)=>a.points - b.points);
 }
   
 server.listen(3000, () => {

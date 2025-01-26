@@ -112,10 +112,7 @@ class GameData {
       const percentTimeElapsed = 1 - (this.gameData[key].currentSecondsLeft / this.gameData[key].totalSeconds);
       const percentWordRevealed = this.gameData[key].currentNamePortions.length / this.gameData[key].allStreets.streets[this.gameData[key].currentNameIndex].length;
       //if (Math.floor(this.gameData[key].currentSecondsLeft) % Math.floor(TOTAL_SECONDS_PER_ROUND/this.gameData[key].allStreets.streets[this.gameData[key].currentNameIndex].length) == 0) {
-      console.log(percentTimeElapsed);
-      console.log(percentWordRevealed);
       if (percentTimeElapsed > percentWordRevealed) {
-        console.log("e")
         // TODO: fix this logic
         if (this.gameData[key].currentNamePortions.length == 0) {
           this.gameData[key].currentNamePortions.push(0);
