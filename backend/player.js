@@ -7,7 +7,7 @@ module.exports = class Player {
     constructor(id, name, char, gameCode){
         this.id = id;
         this.name = name;
-        this.char = char;
+        this.selectedChar = char;
         this.gameCode = gameCode;
     }
     addPoints(ratio){
@@ -26,6 +26,7 @@ module.exports = class Player {
         if(this.selectedChar == "1"){
             p *= 0.8;
         }
-        this.points += p;
+        console.log(this.points);
+        this.points += Math.floor(p);
     }
 }

@@ -43,7 +43,7 @@ export const RankBar: React.FC<RankBarProps> = ({playerList, className}) => {
     const getCps = () => {
         let compos = [];
         for(let i=0; i<playerList.length; i++){
-            compos.push(<PlayerEntry player={playerList[i]}/>)
+            compos.push(<PlayerEntry key={playerList[i].id} player={playerList[i]}/>)
         }
         return compos;
     }

@@ -59,7 +59,9 @@ io.on('connection', (socket) => {
 
     // Someone can guess a name
     socket.on('guessName', (theName) => {
-        gameData.guess(theName, users[socket.id], getPlayersInRoom(users[socket.id].gameCode).length);
+        console.log("User guessed " + theName);
+        if (users[socket.id] === undefined) return;
+        gameData.guess(users[socket.id], theName, getPlayersInRoom(users[socket.id].gameCode).length);
     });
 
     socket.on('disconnect',()=>{
@@ -68,35 +70,58 @@ io.on('connection', (socket) => {
     })
   });
 
+// Get all players in a room, emitted back in the format
+// { id, rk (rank), name, char, score }
+const formatAndReturnAllPlayersInRoom = (gameCode) => {
+    const returned = getPlayersInRoom(gameCode);
+    let res = [];
+    for (let i = 0; i < returned.length; i++) {
+        res.push({
+            id: returned[i].id,
+            rk: (i + 1),
+            name: returned[i].name,
+            char: returned[i].selectedChar,
+            score: returned[i].points
+        });
+    }
+    return res;
+}
+
+
 // Every second, update the games
 setInterval(() => {
     gameData.update();
-    // TODO: let the sockets know, if they're connected
+    // Let the sockets know, if they're connected
     for (const [userId, value] of Object.entries(users)) {
         if (value === undefined) {
             continue;
         }
         console.log("    (Updating game for user): id = " + userId + ", code = " + value.gameCode);
-        try {
+        //try {
             let thisGame = gameData.getGame(value.gameCode)
             io.to(userId).emit("updateGame", thisGame);
-        } catch (err) {
+            let theseUsers = formatAndReturnAllPlayersInRoom(value.gameCode);
+            console.log(JSON.stringify(theseUsers));
+            io.to(userId).emit('returnPlayers', theseUsers);
+        //} catch (err) {
             // Could not find the game; it's probably gone
-            console.log("ERR: could not get game for user: id = " + userId + ", code = " + value.gameCode);
-            console.log(err);
-            continue;
-        }
+            //console.log("ERR: could not get game for user: id = " + userId + ", code = " + value.gameCode);
+            //console.log(err);
+            //continue;
+        //}
     }
 }, gameData.DELAY);
 
 function getPlayersInRoom(roomCode){
     let output = [];
-    for (const [userId, value] of Object.entries(users)){
+    for (const [key, value] of Object.entries(users)){
+        if (value === undefined) continue;
         if(value.gameCode == roomCode){
-            output.push(users[userId]);
+            output.push(value);
         }
     }
-    return output.sort((a,b)=>a.points - b.points);
+    //return output;
+    return output.sort((a,b) => b.points - a.points);
 }
   
 server.listen(3000, () => {
