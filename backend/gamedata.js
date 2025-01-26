@@ -110,8 +110,7 @@ class GameData {
   update() {
     for (const key of Object.keys(this.gameData)) {
       // Update the game
-      //console.log(gameData[key].currentNameIndex >= 8 || gameData[key].currentNameIndex == gameData[key].allStreets.streets.length);
-      if(this.gameData[key].currentNameIndex >= 2 || this.gameData[key].currentNameIndex == this.gameData[key].allStreets.streets.length){
+      if(this.gameData[key].currentNameIndex >= 8 || this.gameData[key].currentNameIndex == this.gameData[key].allStreets.streets.length){
         continue;
       } 
       this.gameData[key].currentSecondsLeft -= this.DELAY/1000;

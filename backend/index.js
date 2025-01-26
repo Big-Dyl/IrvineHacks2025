@@ -67,6 +67,7 @@ io.on('connection', (socket) => {
     socket.on('disconnect',()=>{
         console.log(socket.id + " disconected")
         delete users[socket.id];
+        //To do delete empty rooms
     })
   });
 
