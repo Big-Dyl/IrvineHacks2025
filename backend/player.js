@@ -26,6 +26,7 @@ module.exports = class Player {
         if(this.selectedChar == "1"){
             p *= 0.8;
         }
-        this.points += p;
+        console.log(this.points);
+        this.points += Math.floor(p);
     }
 }

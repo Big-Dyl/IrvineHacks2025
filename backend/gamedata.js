@@ -78,8 +78,8 @@ class GameData {
     }
 
     if (this.gameData[player.gameCode].allStreets.streets[this.gameData[player.gameCode].currentNameIndex].toLowerCase().trim() == str.toLowerCase().trim()) {
-      const pointsToAdd = Math.floor(TOTAL_SECONDS_PER_ROUND/this.gameData[player.gameCode].currentSecondsLeft);
-      player.addPoints(pointsToAdd);
+      const ratio = this.gameData[player.gameCode].currentSecondsLeft/TOTAL_SECONDS_PER_ROUND;
+      player.addPoints(ratio);
       this.gameData[player.gameCode].chat.push(player.name + " guessed the street name correctly!");
       this.gameData[player.gameCode].playersSuccessful.push(player.id);
     } else {
