@@ -2,6 +2,8 @@
 
 Our project for IrvineHacks 2025: a multiplayer geography game that tests how well you know the streets in your city!
 
+![Gameplay of SpeedStreets](screenshot/Screenshot_Game.png)
+
 ## How to Run
 
 Development frontend:
@@ -26,13 +28,25 @@ Just open up the game's homepage, enter a city name, choose a name, and click "H
 Give the room code to your participants, who can also enter it on the homepage to join!
 
 You can also choose a different character, including:
+- Peter
+- Pioneer
+- Rouge
+- Wizard (our mascot!)
+
+Each character has a different buff or debuff--hover over them to find out.
+
+## Screenshots
+
+![The homepage, with character selection](screenshot/Screenshot_Home.png)
+
+![The podium at the end of the game](screenshot/Screenshot_GameOver.png)
 
 ## Technologies
 
 Frontend:
 - Vite and React
 - Tailwind CSS
-- Leaflet, including data from OpenStreetMap using the Stadia.StamenWatercolor provider
+- Leaflet, using data from OpenStreetMap
 
 Backend:
 - Node.js
@@ -42,7 +56,7 @@ Backend:
 
 ## Credits
 
-Thanks to OpenStreetMap for providing the map data
+Thanks to [OpenStreetMap](openstreetmap.org/copyright) contributors for map data, via [Leaflet](https://leafletjs.com/)
 
 Art by @JiaZhu350
 
