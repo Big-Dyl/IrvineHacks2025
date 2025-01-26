@@ -68,34 +68,61 @@ io.on('connection', (socket) => {
     })
   });
 
+// Get all players in a room, emitted back in the format
+// { id, rk (rank), name, char, score }
+const formatAndReturnAllPlayersInRoom = (gameCode) => {
+    const returned = getPlayersInRoom(gameCode);
+    let res = [];
+    for (let i = 0; i < returned.length; i++) {
+        res.push({
+            id: returned[i].id,
+            rk: (i + 1),
+            name: returned[i].name,
+            char: returned[i].selectedChar,
+            score: returned[i].points
+        });
+    }
+    console.log("RES: " + JSON.stringify(res));
+    return res;
+}
+
+
 // Every second, update the games
 setInterval(() => {
     gameData.updateGamesByOneSecond();
-    // TODO: let the sockets know, if they're connected
+    // Let the sockets know, if they're connected
     for (const [userId, value] of Object.entries(users)) {
         if (value === undefined) {
             continue;
         }
         console.log("    (Updating game for user): id = " + userId + ", code = " + value.gameCode);
-        try {
+        //try {
             let thisGame = gameData.getGame(value.gameCode)
             io.to(userId).emit("updateGame", thisGame);
-        } catch (err) {
+            let theseUsers = formatAndReturnAllPlayersInRoom(value.gameCode);
+            console.log(JSON.stringify(theseUsers));
+            io.to(userId).emit('returnPlayers', theseUsers);
+        //} catch (err) {
             // Could not find the game; it's probably gone
-            console.log("ERR: could not get game for user: id = " + userId + ", code = " + value.gameCode);
-            console.log(err);
-            continue;
-        }
+            //console.log("ERR: could not get game for user: id = " + userId + ", code = " + value.gameCode);
+            //console.log(err);
+            //continue;
+        //}
     }
 }, 1000);
 
 function getPlayersInRoom(roomCode){
     let output = [];
-    for (const [userId, value] of Object.entries(users)){
+    for (const [key, value] of Object.entries(users)){
+        console.log(JSON.stringify(key));
+        console.log(value);
+        if (value === undefined) continue;
         if(value.gameCode == roomCode){
-            output.push(users[userId]);
+            output.push(value);
         }
     }
+    console.log("OUT: " + JSON.stringify(output));
+    return output;
 }
   
 server.listen(3000, () => {

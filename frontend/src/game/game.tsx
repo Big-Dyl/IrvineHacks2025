@@ -28,7 +28,7 @@ import 'leaflet/dist/leaflet.css'
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet'
 
 import { RankBar } from "./sidebar";
-import { fakeList } from "@/main";
+//import { fakeList } from "@/main";
 
 import socket from '../socket'
 
@@ -82,6 +82,14 @@ export default function GamePage(){
         playersSuccessful: []
     });
 
+    const [allUsers, setAllUsers] = useState([{
+        id: "0001",
+        rk: 1,
+        name: "Loading...",
+        char: 1,
+        score: 1
+    }]);
+
     //let mapRef = useRef(null);
 
     // Get the room code
@@ -99,7 +107,12 @@ export default function GamePage(){
         socket.on("updateGame", (updatedData) => {
             // Update the info
             setGameData(updatedData);
-            // TODO: Update the map?
+        });
+
+        socket.on("returnPlayers", (updatedPlayers) => {
+            // Update the info
+            console.log("Updated players with: " + JSON.stringify(updatedPlayers));
+            setAllUsers(updatedPlayers);
         });
     }, []);
 
@@ -172,7 +185,7 @@ export default function GamePage(){
                                 {copied? "Copied!": gameData.gameCode} 📋
                         </Button>
                     </div>
-                    <RankBar className="h-screen w-70 mt-4" playerList={fakeList}/>
+                    <RankBar className="h-screen w-70 mt-4" playerList={allUsers}/>
                 </div>
                 <div className="flex-col justify-center">
                     <div className="mt-6 ml-40 h-16 w-120 items-center text-2xl font-serif">Guess a street's name in <b className="text-5xl text-red-600 underline ml-4">{gameData.cityName}</b></div>

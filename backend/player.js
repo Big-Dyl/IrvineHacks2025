@@ -7,7 +7,7 @@ module.exports = class Player {
     constructor(id, name, char, gameCode){
         this.id = id;
         this.name = name;
-        this.char = char;
+        this.selectedChar = char;
         this.gameCode = gameCode;
     }
     addPoints(ratio){
