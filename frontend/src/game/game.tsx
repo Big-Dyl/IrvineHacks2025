@@ -13,6 +13,8 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"  
+import { Textarea } from "@/components/ui/textarea"
+import { Input } from "@/components/ui/input"
 
 
 import Blue from "@/assets/bluebrush.png"
@@ -177,7 +179,7 @@ export default function GamePage(){
                         <div className="flex" style={{"letterSpacing": "0.2rem"}}>{getStreetName_new()}</div>
                     </div>
                 </div>
-                <div className="ml-4 mt-24">
+                <div className="ml-4 mt-24 flex flex-col">
                     <TextBar></TextBar>
                 </div>
             </div>
@@ -196,7 +198,8 @@ const TextBar = () => {
 
     return (
         <div>
-            <Card style={{width: "10rem", height: "60vh"}}></Card>
+            <Card className="bg-white" style={{width: "10rem", height: "60vh"}}></Card>
+            <Input className="bg-white mt-4 border-2" placeholder="Type your answer"></Input>
         </div>
     );
 }
