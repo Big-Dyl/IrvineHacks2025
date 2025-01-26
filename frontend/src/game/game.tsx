@@ -195,7 +195,7 @@ export default function GamePage(){
                     <RankBar className="h-screen w-70 mt-4" playerList={allUsers}/>
                 </div>
                 <div className="flex-col justify-center">
-                    <div className="mt-6 ml-40 h-16 w-120 items-center text-2xl font-serif">Guess a street's name in <b className="text-5xl text-red-600 underline ml-4">{gameData.cityName}</b></div>
+                    <div className="mt-6 ml-40 h-16 items-center text-2xl font-serif">Guess a street's name in <b className="text-5xl text-red-600 underline ml-4">{gameData.cityName}</b></div>
                     <MyMap center_first={gameData.allStreets.coords[gameData.currentNameIndex][1]} center_second={gameData.allStreets.coords[gameData.currentNameIndex][0]} zoom={getZoomAmount()} />
 
                     <ProgressBar value={gameData.totalSeconds-gameData.currentSecondsLeft} tot={gameData.totalSeconds}></ProgressBar>
