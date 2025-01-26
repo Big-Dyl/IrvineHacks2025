@@ -1,4 +1,10 @@
 import { Button } from "@/components/ui/button";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+  } from "@/components/ui/popover"
+  
 
 import { useState, useEffect, useRef } from 'react'
 import '../App.css'
@@ -9,6 +15,7 @@ import 'leaflet/dist/leaflet.css'
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet'
 
 import { RankBar } from "./sidebar";
+import { fakeList } from "@/main";
 
 import socket from '../socket'
 
@@ -26,10 +33,11 @@ function ChangeView(props: {
 function MyMap(props: {
     center_first: number,
     center_second: number,
-    zoom: number
+    zoom: number,
+    className: string,
 }) {
     return (
-        <div className="map">
+        <div className={`map ${props.className}`}>
             <MapContainer
                 center={[props.center_second, props.center_first]} zoom={props.zoom} scrollWheelZoom={false}
                 style={{"height": "90vh"}}
@@ -111,20 +119,39 @@ export default function GamePage(){
         return res;
     }
 
+    // for button click effect
+    let [copied, setCopied] = useState(false);
+    function handleClick(){
+        navigator.clipboard.writeText(gameData.gameCode);
+        setCopied(true);
+        setTimeout(()=>{setCopied(false)}, 2000);
+    }
+
     // crossorigin="" was included originally in the leaflet stylesheet and script
     return (
-        <div>
+        <div className="w-4/5 mx-auto h-screen">
             <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
                 integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" />
             <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
                 integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" />
-            Anyone can enter this Room Code to join: <b>{gameData.gameCode}</b>
-            <br />
-            <div className="text-3xl">
-                Guess this street name in <b>{gameData.cityName}</b>
-                <br />
+            
+            <div className="flex">
+                <div>
+                    <div id="titlebar" className="h-24 flex items-center mt-4 ml-5">
+                        <Button 
+                            className="bg-black text-white w-60 h-16 rounded-xl text-xl cursor-pointer"
+                            onClick={handleClick}>
+                                {copied? "Copied!": gameData.gameCode} 📋
+                        </Button>
+                    </div>
+                    <RankBar className="h-screen w-70 mt-4" playerList={fakeList}/>
+                </div>
+                <div>
+                    <div className="flex mt-6 ml-40 h-20 w-120 items-center text-2xl font-serif">Guess a street's name in <b className="text-5xl text-red-600 underline ml-4">{gameData.cityName}</b></div>
+                    <MyMap center_first={gameData.allStreets.coords[gameData.currentNameIndex][1]} center_second={gameData.allStreets.coords[gameData.currentNameIndex][0]} zoom={getZoomAmount()} />
+                </div>
             </div>
-            <br />
+
             <br />
             <div className="text-5xl">
                 <span style={{"letterSpacing": "0.2rem"}}>{getStreetName()}</span>
@@ -134,7 +161,6 @@ export default function GamePage(){
             </div>
             The map will zoom in on the street:
             {/*<div id="map" style={{"width": "100%", "height": "60vh"}}></div>*/}
-            <MyMap center_first={gameData.allStreets.coords[gameData.currentNameIndex][1]} center_second={gameData.allStreets.coords[gameData.currentNameIndex][0]} zoom={getZoomAmount()} />
         </div>
     );
 }

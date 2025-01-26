@@ -6,7 +6,7 @@ import GamePage from "./game/game.tsx";
 import { RankBar } from "./game/sidebar.tsx";
 
 // for testing
-const fakeList = [
+export const fakeList = [
   {
     id: "0001",
     name: "codycode",
@@ -30,7 +30,55 @@ const fakeList = [
     name: "Randomstreetgay",
     char: 3,
     score: 10,
-  }
+  },
+  {
+    id: "0001",
+    name: "codycode",
+    char: 1,
+    score: 15,
+  },
+  {
+    id: "0002",
+    name: "BigDyl",
+    char: 2,
+    score: 14,
+  },
+  {
+    id: "0003",
+    name: "cadec",
+    char: 0,
+    score: 10,
+  },
+  {
+    id: "0004",
+    name: "Randomstreetgay",
+    char: 3,
+    score: 10,
+  },
+  {
+    id: "0001",
+    name: "codycode",
+    char: 1,
+    score: 15,
+  },
+  {
+    id: "0002",
+    name: "BigDyl",
+    char: 2,
+    score: 14,
+  },
+  {
+    id: "0003",
+    name: "cadec",
+    char: 0,
+    score: 10,
+  },
+  {
+    id: "0004",
+    name: "Randomstreetgay",
+    char: 3,
+    score: 10,
+  },
 ]
 
 const root = document.getElementById("root");
