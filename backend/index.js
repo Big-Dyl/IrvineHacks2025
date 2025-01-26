@@ -56,11 +56,15 @@ io.on('connection', (socket) => {
             socket.emit('errorJoining');
         }
     });
+
+    socket.on('disconnect',()=>{
+        console.log(socket.id + " disconected")
+        delete users[socket.id];
+    })
   });
 
 // Every second, update the games
 setInterval(() => {
-    console.log("  (Updating games)");
     gameData.updateGamesByOneSecond();
     // TODO: let the sockets know, if they're connected
     for (const [userId, value] of Object.entries(users)) {
@@ -79,6 +83,15 @@ setInterval(() => {
         }
     }
 }, 1000);
+
+function getPlayersInRoom(roomCode){
+    let output = [];
+    for (const [userId, value] of Object.entries(users)){
+        if(value.gameCode == roomCode){
+            output.push(users[userId]);
+        }
+    }
+}
   
 server.listen(3000, () => {
     console.log('listening on *:3000');
