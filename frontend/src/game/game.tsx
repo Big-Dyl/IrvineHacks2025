@@ -178,10 +178,9 @@ export default function GamePage(){
                     <div className="mt-6 ml-40 h-16 w-120 items-center text-2xl font-serif">Guess a street's name in <b className="text-5xl text-red-600 underline ml-4">{gameData.cityName}</b></div>
                     <MyMap center_first={gameData.allStreets.coords[gameData.currentNameIndex][1]} center_second={gameData.allStreets.coords[gameData.currentNameIndex][0]} zoom={getZoomAmount()} />
 
-                    ;
-
+                    <ProgressBar value={gameData.totalSeconds-gameData.currentSecondsLeft} tot={gameData.totalSeconds}></ProgressBar>
                     <div className="text-5xl mt-4 ml-6">
-                        <div className="flex flex-wrap w-180" style={{"letterSpacing": "0.2rem"}}>{getStreetName_new()}</div>
+                        <div className="flex flex-wrap" style={{"letterSpacing": "0.2rem", width: "80vh"}}>{getStreetName_new()}</div>
                     </div>
                 </div>
                 <div className="ml-4 mt-24 flex flex-col">
@@ -210,3 +209,15 @@ const TextBar = () => {
 }
 
 // progress bar
+interface ProgressProps{
+    value: number;
+    tot: number;
+}
+const ProgressBar: React.FC<ProgressProps> = ({value, tot}) => {
+    return (
+        <div className="relative border-2 rounded-xl h-10 mt-4">
+            <div className="absolute inset-0 bg-blue-500 rounded-l-lg" style={{width: `${Math.floor(100*value/tot)}%`}}></div>
+            <div className="absolute inset-0 bg-white rounded-r-lg" style={{left: `${Math.floor(100*value/tot)}%`, width: `${100-Math.floor(100*value/tot)}%`}}></div>
+        </div>
+    );
+}
