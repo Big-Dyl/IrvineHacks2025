@@ -204,7 +204,7 @@ export default function GamePage(){
                     </div>
                 </div>
                 <div className="ml-4 mt-24 flex flex-col">
-                    <TextBar submitInput={submitChatInput} chat={gameData.chat}></TextBar>
+                    <TextBar submitInput={submitChatInput} chat={gameData.chat} nameIndex={gameData.currentNameIndex} nameCount={Math.min(8, gameData.allStreets.streets.length)}></TextBar>
                 </div>
             </div>
         </div>
@@ -233,10 +233,11 @@ const TextBar = (props: any) => {
     }
     return (
         <div>
-        <Card className="bg-white" style={{width: "10rem", height: "60vh", overflow: "auto"}}>
+            <Card className="bg-white" style={{width: "14rem", height: "60vh", overflow: "auto"}}>
+                <span style={{"float": "right"}}>{props.nameIndex + 1}/{props.nameCount}</span>
                 <ul>
                     {props.chat.map((item: any, i: number) => {
-                        return <li key={i}>{item}</li>;
+                        return <li className={item.includes("correctly!") ? "text-green-500 font-bold" : ""} key={i}>{item}</li>;
                     })}
                 </ul>
             </Card>
