@@ -59,7 +59,9 @@ io.on('connection', (socket) => {
 
     // Someone can guess a name
     socket.on('guessName', (theName) => {
-        gameData.guess(theName, users[socket.id], getPlayersInRoom(users[socket.id].gameCode).length);
+        console.log("User guessed " + theName);
+        if (users[socket.id] === undefined) return;
+        gameData.guess(users[socket.id], theName, getPlayersInRoom(users[socket.id].gameCode).length);
     });
 
     socket.on('disconnect',()=>{
@@ -82,14 +84,13 @@ const formatAndReturnAllPlayersInRoom = (gameCode) => {
             score: returned[i].points
         });
     }
-    console.log("RES: " + JSON.stringify(res));
     return res;
 }
 
 
 // Every second, update the games
 setInterval(() => {
-    gameData.updateGamesByOneSecond();
+    gameData.update();
     // Let the sockets know, if they're connected
     for (const [userId, value] of Object.entries(users)) {
         if (value === undefined) {
@@ -109,20 +110,18 @@ setInterval(() => {
             //continue;
         //}
     }
-}, 1000);
+}, gameData.DELAY);
 
 function getPlayersInRoom(roomCode){
     let output = [];
     for (const [key, value] of Object.entries(users)){
-        console.log(JSON.stringify(key));
-        console.log(value);
         if (value === undefined) continue;
         if(value.gameCode == roomCode){
             output.push(value);
         }
     }
-    console.log("OUT: " + JSON.stringify(output));
-    return output;
+    //return output;
+    return output.sort((a,b)=>a.points - b.points);
 }
   
 server.listen(3000, () => {

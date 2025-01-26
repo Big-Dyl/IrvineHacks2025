@@ -98,6 +98,11 @@ export default function GamePage(){
     const selectedChar = params.get("selectedChar");
     const playerName = params.get("playerName");
 
+    const submitChatInput = (chatInput: string) => {
+        console.log("Guessing: " + chatInput);
+        socket.emit("guessName", chatInput);
+    }
+
     useEffect(() => {
         // Let the server know that we have joined
         socket.emit("joinGame", { gameCode: roomCode, selectedChar: selectedChar, playerName: playerName });
@@ -111,7 +116,7 @@ export default function GamePage(){
 
         socket.on("returnPlayers", (updatedPlayers) => {
             // Update the info
-            console.log("Updated players with: " + JSON.stringify(updatedPlayers));
+            //console.log("Updated players with: " + JSON.stringify(updatedPlayers));
             setAllUsers(updatedPlayers);
         });
     }, []);
@@ -144,7 +149,9 @@ export default function GamePage(){
             if (gameData.currentNamePortions.includes(i) || gameData.allStreets.streets[gameData.currentNameIndex][i] == " ") {
                 ch = gameData.allStreets.streets[gameData.currentNameIndex][i];
             }
-            res.push(<div className="rounded-xl w-12 h-12 bg-white flex justify-center items-center border-2 border-dashed shadow-lg m-2 p-2 text-2xl font-bold font-serif">{ch}</div>);
+            res.push(
+                <div className="rounded-xl w-12 h-12 bg-white flex justify-center items-center border-2 border-dashed shadow-lg m-2 p-2 text-2xl font-bold font-serif">{ch}</div>
+            );
         }
         return res;
     }
@@ -190,12 +197,12 @@ export default function GamePage(){
                 <div className="flex-col justify-center">
                     <div className="mt-6 ml-40 h-16 w-120 items-center text-2xl font-serif">Guess a street's name in <b className="text-5xl text-red-600 underline ml-4">{gameData.cityName}</b></div>
                     <MyMap center_first={gameData.allStreets.coords[gameData.currentNameIndex][1]} center_second={gameData.allStreets.coords[gameData.currentNameIndex][0]} zoom={getZoomAmount()} />
-                    <div className="text-5xl mt-4">
-                        <div className="flex" style={{"letterSpacing": "0.2rem"}}>{getStreetName_new()}</div>
+                    <div className="text-5xl mt-4 ml-6">
+                        <div className="flex flex-wrap w-180" style={{"letterSpacing": "0.2rem"}}>{getStreetName_new()}</div>
                     </div>
                 </div>
                 <div className="ml-4 mt-24 flex flex-col">
-                    <TextBar></TextBar>
+                    <TextBar submitInput={submitChatInput} chat={gameData.chat}></TextBar>
                 </div>
             </div>
         </div>
@@ -209,12 +216,24 @@ interface Chat{
 
 //interface 
 
-const TextBar = () => {
+const TextBar = (props: any) => {
+    const [theChatInput, setTheChatInput] = useState("");
 
+    const handleChange = (e: any) => {
+        setTheChatInput(e.target.value);
+    }
+
+    const submitTheInput = (e: any) => {
+        if(e.key == "Enter") {
+            props.submitInput(theChatInput);
+            setTheChatInput("");
+        }
+    }
     return (
         <div>
-            <Card className="bg-white" style={{width: "10rem", height: "60vh"}}></Card>
-            <Input className="bg-white mt-4 border-2" placeholder="Type your answer"></Input>
+            <Card className="bg-white" style={{width: "10rem", height: "60vh"}}>{"" + props.chat.length}</Card>
+            <Input value={theChatInput} className="bg-white mt-4 border-2" placeholder="Type your answer" onChange={handleChange} onKeyDown={submitTheInput} />
         </div>
     );
 }
+// progress bar
