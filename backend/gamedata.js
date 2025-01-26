@@ -99,6 +99,7 @@ class GameData {
     this.gameData[gameCode].currentNamePortions = [];
     this.gameData[gameCode].playersSuccessful = [];
     this.gameData[gameCode].chat.push("-------");
+    while (this.gameData[gameCode].chat.length > 10) this.gameData[gameCode].chat.shift();
     this.gameData[gameCode].currentNameIndex++;
     if (this.gameData[gameCode].currentNameIndex >= this.gameData[gameCode].allStreets.streets.length) {
       // Finished completely
