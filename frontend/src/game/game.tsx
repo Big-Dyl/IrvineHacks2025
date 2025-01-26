@@ -198,7 +198,9 @@ export default function GamePage(){
                 </div>
                 <div className="flex-col justify-center">
                     <div className="mt-6 ml-40 h-16 items-center text-2xl font-serif">Guess a street's name in  <b className="text-5xl text-red-600 underline ml-4">{gameData.cityName}</b></div>
-                    {(gameData.currentNameIndex >= 2 || gameData.currentNameIndex == gameData.allStreets.streets.length) ? <EndScreen></EndScreen> : <MyMap center_first={gameData.allStreets.coords[gameData.currentNameIndex][1]} center_second={gameData.allStreets.coords[gameData.currentNameIndex][0]} zoom={getZoomAmount()}/>}
+                    {(gameData.currentNameIndex >= 8 || gameData.currentNameIndex == gameData.allStreets.streets.length) ? 
+                    <EndScreen p1 = {allUsers.at(0)} p2 = {allUsers.at(1)} p3 = {allUsers.at(2)}></EndScreen> : 
+                    <MyMap center_first={gameData.allStreets.coords[gameData.currentNameIndex][1]} center_second={gameData.allStreets.coords[gameData.currentNameIndex][0]} zoom={getZoomAmount()}/>}
                     <ProgressBar value={gameData.totalSeconds-gameData.currentSecondsLeft} tot={gameData.totalSeconds}></ProgressBar>
                     <div className="text-5xl mt-4 ml-6">
                         <div className="flex flex-wrap" style={{"letterSpacing": "0.2rem", width: "80vh"}}>{getStreetName_new()}</div>

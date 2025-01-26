@@ -26,7 +26,7 @@ interface EntryProps{
 
 const picLis = [Peter, Pioneer, Rouge, Wizard];
 
-const PlayerEntry: React.FC<EntryProps> = ({player}) => {
+export const PlayerEntry: React.FC<EntryProps> = ({player}) => {
     return (
         <li className="flex h-16 rounded-xl border-2 my-2 shadow-lg bg-white w-60 mx-auto">
             <img src={picLis[player.char]}/>
