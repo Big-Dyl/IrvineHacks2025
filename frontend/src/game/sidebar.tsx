@@ -9,6 +9,7 @@ import Wizard from "@/assets/WizardAnteater.png"
 
 interface Player{
     id: string;
+    rk: number;
     name: string;
     char: number;
     score: number;
@@ -30,7 +31,7 @@ const PlayerEntry: React.FC<EntryProps> = ({player}) => {
         <li className="flex h-16 rounded-xl border-2 my-2 shadow-lg bg-white w-60 mx-auto">
             <img src={picLis[player.char]}/>
             <div className="flex flex-col justify-center ">
-                <div className="w-40 flex justify-end mr-4 text-xl font-serif">{player.name}</div>
+                <div className="w-40 flex justify-end mr-4 text-xl font-serif">{`${player.rk}.${player.name}`}</div>
                 <div className="w-40 flex justify-end mr-4 font-bold">{player.score}</div>
             </div>
         </li>

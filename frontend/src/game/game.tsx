@@ -4,7 +4,18 @@ import {
     PopoverContent,
     PopoverTrigger,
   } from "@/components/ui/popover"
-  
+import { Progress } from "@/components/ui/progress";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+  } from "@/components/ui/card"  
+
+
+import Blue from "@/assets/bluebrush.png"
 
 import { useState, useEffect, useRef } from 'react'
 import '../App.css'
@@ -34,13 +45,13 @@ function MyMap(props: {
     center_first: number,
     center_second: number,
     zoom: number,
-    className: string,
 }) {
     return (
-        <div className={`map ${props.className}`}>
+        <div className="map ml-10 border-2 border-dashed rounded-xl bg-white p-2">
             <MapContainer
                 center={[props.center_second, props.center_first]} zoom={props.zoom} scrollWheelZoom={false}
-                style={{"height": "90vh"}}
+                style={{width:"80vh" ,"height": "60vh"}}
+                className="aspect-w-4 aspect-h-3"
             >
                 <ChangeView center_first={props.center_first} center_second={props.center_second} zoom={props.zoom} />
                 <TileLayer
@@ -108,6 +119,19 @@ export default function GamePage(){
         return res;
     };
 
+    // another getStreetName; for better looking
+    const getStreetName_new = () => {
+        let res = [];
+        for (let i=0; i<gameData.allStreets.streets[gameData.currentNameIndex].length; i++){
+            let ch = "_";
+            if (gameData.currentNamePortions.includes(i) || gameData.allStreets.streets[gameData.currentNameIndex][i] == " ") {
+                ch = gameData.allStreets.streets[gameData.currentNameIndex][i];
+            }
+            res.push(<div className="rounded-xl w-12 h-12 bg-white flex justify-center items-center border-2 border-dashed shadow-lg m-2 p-2 text-2xl font-bold font-serif">{ch}</div>);
+        }
+        return res;
+    }
+
     // Get the zoom amount
     const getZoomAmount = () => {
         //return Math.min(30, Math.max(14, 10 + (1 - (gameData.currentSecondsLeft / gameData.totalSeconds)) * 20));
@@ -146,21 +170,33 @@ export default function GamePage(){
                     </div>
                     <RankBar className="h-screen w-70 mt-4" playerList={fakeList}/>
                 </div>
-                <div>
-                    <div className="flex mt-6 ml-40 h-20 w-120 items-center text-2xl font-serif">Guess a street's name in <b className="text-5xl text-red-600 underline ml-4">{gameData.cityName}</b></div>
+                <div className="flex-col justify-center">
+                    <div className="mt-6 ml-40 h-16 w-120 items-center text-2xl font-serif">Guess a street's name in <b className="text-5xl text-red-600 underline ml-4">{gameData.cityName}</b></div>
                     <MyMap center_first={gameData.allStreets.coords[gameData.currentNameIndex][1]} center_second={gameData.allStreets.coords[gameData.currentNameIndex][0]} zoom={getZoomAmount()} />
+                    <div className="text-5xl mt-4">
+                        <div className="flex" style={{"letterSpacing": "0.2rem"}}>{getStreetName_new()}</div>
+                    </div>
+                </div>
+                <div className="ml-4 mt-24">
+                    <TextBar></TextBar>
                 </div>
             </div>
+        </div>
+    );
+}
 
-            <br />
-            <div className="text-5xl">
-                <span style={{"letterSpacing": "0.2rem"}}>{getStreetName()}</span>
-                <span style={{"float": "right"}}>
-                    Seconds left: <span>{gameData.currentSecondsLeft}</span>
-                </span>
-            </div>
-            The map will zoom in on the street:
-            {/*<div id="map" style={{"width": "100%", "height": "60vh"}}></div>*/}
+interface Chat{
+    sender: string; // sender's username
+
+}
+
+//interface 
+
+const TextBar = () => {
+
+    return (
+        <div>
+            <Card style={{width: "10rem", height: "60vh"}}></Card>
         </div>
     );
 }
