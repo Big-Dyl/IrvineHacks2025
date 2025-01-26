@@ -131,7 +131,7 @@ export default function GamePage(){
             <div className="text-5xl">
                 <span style={{"letterSpacing": "0.2rem"}}>{getStreetName()}</span>
                 <span style={{"float": "right"}}>
-                    Seconds left: <span>{gameData.currentSecondsLeft}</span>
+                    Seconds left: <span>{Math.floor(gameData.currentSecondsLeft)}</span>
                 </span>
             </div>
             The map will zoom in on the street:
