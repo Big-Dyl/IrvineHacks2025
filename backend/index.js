@@ -57,6 +57,11 @@ io.on('connection', (socket) => {
         }
     });
 
+    // Someone can guess a name
+    socket.on('guessName', (theName) => {
+        gameData.guess(theName, users[socket.id], getPlayersInRoom(users[socket.id].gameCode).length);
+    });
+
     socket.on('disconnect',()=>{
         console.log(socket.id + " disconected")
         delete users[socket.id];

@@ -77,7 +77,7 @@ class GameData {
     if (this.gameData[player.gameCode].allStreets.streets[this.gameData[player.gameCode].currentNameIndex].toLowerCase().trim() == str.toLowerCase().trim()) {
       const pointsToAdd = Math.floor(TOTAL_SECONDS_PER_ROUND/this.gameData[player.gameCode].currentSecondsLeft);
       player.addPoints(pointsToAdd);
-      this.gameData[player.gameCode].chat.unshift(player.name + " guessed the street name");
+      this.gameData[player.gameCode].chat.unshift(player.name + " guessed the street name correctly!");
       this.gameData[player.game].playersSuccessful.push(player.id);
     } else {
       this.gameData[player.gameCode].chat.unshift(player.name + ":  " + guess);
