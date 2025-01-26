@@ -111,6 +111,9 @@ class GameData {
   update() {
     for (const key of Object.keys(this.gameData)) {
       // Update the game
+      if(this.gameData[key].currentNameIndex >= 8 || this.gameData[key].currentNameIndex == this.gameData[key].allStreets.streets.length){
+        continue;
+      } 
       this.gameData[key].currentSecondsLeft -= this.DELAY/1000;
       // Based on seconds left, reveal another letter
       const percentTimeElapsed = 1 - (this.gameData[key].currentSecondsLeft / this.gameData[key].totalSeconds);

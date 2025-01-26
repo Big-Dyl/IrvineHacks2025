@@ -31,6 +31,7 @@ import { RankBar } from "./sidebar";
 //import { fakeList } from "@/main";
 
 import socket from '../socket'
+import { EndScreen } from "./endscreen";
 
 function ChangeView(props: {
     center_first: number,
@@ -49,6 +50,7 @@ function MyMap(props: {
     zoom: number,
 }) {
     return (
+        
         <div className="map ml-10 border-2 border-dashed rounded-xl bg-white p-2">
             <MapContainer
                 center={[props.center_second, props.center_first]} zoom={props.zoom} scrollWheelZoom={false}
@@ -195,9 +197,10 @@ export default function GamePage(){
                     <RankBar className="h-screen w-70 mt-4" playerList={allUsers}/>
                 </div>
                 <div className="flex-col justify-center">
-                    <div className="mt-6 ml-40 h-16 items-center text-2xl font-serif">Guess a street's name in <b className="text-5xl text-red-600 underline ml-4">{gameData.cityName}</b></div>
-                    <MyMap center_first={gameData.allStreets.coords[gameData.currentNameIndex][1]} center_second={gameData.allStreets.coords[gameData.currentNameIndex][0]} zoom={getZoomAmount()} />
-
+                    <div className="mt-6 ml-40 h-16 items-center text-2xl font-serif">Guess a street's name in  <b className="text-5xl text-red-600 underline ml-4">{gameData.cityName}</b></div>
+                    {(gameData.currentNameIndex >= 8 || gameData.currentNameIndex == gameData.allStreets.streets.length) ? 
+                    <EndScreen p1 = {allUsers.at(0)} p2 = {allUsers.at(1)} p3 = {allUsers.at(2)}></EndScreen> : 
+                    <MyMap center_first={gameData.allStreets.coords[gameData.currentNameIndex][1]} center_second={gameData.allStreets.coords[gameData.currentNameIndex][0]} zoom={getZoomAmount()}/>}
                     <ProgressBar value={gameData.totalSeconds-gameData.currentSecondsLeft} tot={gameData.totalSeconds}></ProgressBar>
                     <div className="text-5xl mt-4 ml-6">
                         <div className="flex flex-wrap" style={{"letterSpacing": "0.2rem", width: "80vh"}}>{getStreetName_new()}</div>
