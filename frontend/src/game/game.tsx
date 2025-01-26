@@ -109,7 +109,9 @@ export default function GamePage(){
         // Let the server know that we have joined
         socket.emit("joinGame", { gameCode: roomCode, selectedChar: selectedChar, playerName: playerName });
     }, []);
-
+    useEffect(()=>{
+        socket.emit("isGameValid", roomCode);
+    })
     useEffect(() => {
         socket.on("updateGame", (updatedData) => {
             // Update the info
@@ -121,6 +123,7 @@ export default function GamePage(){
             //console.log("Updated players with: " + JSON.stringify(updatedPlayers));
             setAllUsers(updatedPlayers);
         });
+        socket.on("invalidRoom", ()=>window.location.href = "/");
     }, []);
 
     const updateMapLocation = () => {
@@ -184,7 +187,6 @@ export default function GamePage(){
                 integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" />
             <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
                 integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" />
-            
             <div className="flex">
                 <div>
                     <div id="titlebar" className="h-24 flex items-center mt-4 ml-5">

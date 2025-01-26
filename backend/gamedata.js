@@ -56,7 +56,8 @@ class GameData {
       totalSeconds: TOTAL_SECONDS_PER_ROUND,
       currentNamePortions: [],
       playersSuccessful: [],
-      playerCount: 0
+      playerCount: 0,
+      gameOver: false
     };
     return gameCode;
   }
@@ -71,7 +72,7 @@ class GameData {
 
   guess(player, str, playerCount) {
     // TODO: fully implement/check
-    if (this.gameData[player.gameCode].playersSuccessful.includes(player.gameCode)) {
+    if (this.gameData[player.gameCode].playersSuccessful.includes(player.id)) {
       // Already answered
       console.log("Player already answered");
       return;
@@ -111,7 +112,9 @@ class GameData {
   update() {
     for (const key of Object.keys(this.gameData)) {
       // Update the game
-      if(this.gameData[key].currentNameIndex >= 8 || this.gameData[key].currentNameIndex == this.gameData[key].allStreets.streets.length){
+      if(this.gameData[key].currentNameIndex >= 8 || this.gameData[key].currentNameIndex == this.gameData[key].allStreets.streets.length && !this.gameData[key].gameOver){
+        this.gameData[key].gameOver = true;
+        setTimeout(()=>delete this.gameData[key],30000);
         continue;
       } 
       this.gameData[key].currentSecondsLeft -= this.DELAY/1000;
