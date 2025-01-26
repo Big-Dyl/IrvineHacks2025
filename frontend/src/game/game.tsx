@@ -54,9 +54,11 @@ export default function GamePage(){
             coords: [[0, 0]]
         },
         currentNameIndex: 0,
+        chat: [],
         currentSecondsLeft: 1,
         totalSeconds: 1,
-        currentNamePortions: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        currentNamePortions: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        playersSuccessful: []
     });
 
     //let mapRef = useRef(null);
