@@ -27,18 +27,18 @@ function App() {
 
   function constructURL(gameCode : string){
     const newUrl = new URL(document.location + "./game");
+  }
+  /*useEffect(() => {
+  */
+  socket.on("gameCreated", (gameCode) => {
+    // Go to the corresponding URL
+    const newUrl = new URL(document.location + "./game");
     newUrl.searchParams.append("selectedChar", ("" + selectedChar));
     newUrl.searchParams.append("roomCode", gameCode);
     newUrl.searchParams.append("playerName", playerName);
-    return newUrl;
-  }
-  useEffect(() => {
-    socket.on("gameCreated", (gameCode) => {
-      // Go to the corresponding URL
-      const newUrl = constructURL(gameCode);
-      window.location.href = newUrl.toString();
-    });
-  }, []);
+    window.location.href = newUrl.toString();
+  });
+  /*}, []);*/
 
   const hostGame = () => {
     // Create the game; wait for the message back to navigate
