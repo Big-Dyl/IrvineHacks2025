@@ -29,10 +29,10 @@ io.on('connection', (socket) => {
     socket.on('joinGame', (data) => {
         console.log('USER JOINED ROOM: code = ' + data.gameCode + ', char = ' + data.selectedChar + ', id = ' + socket.id);
         try {
-            //users[socket.id] = { gameCode: data.gameCode.toUpperCase(), selectedChar: data.selectedChar };
-            users[socket.id] = new Player(socket.id, data.playerName, data.selectedChar, data.gameCode )
+            users[socket.id] = new Player(socket.id, data.playerName, data.selectedChar, data.gameCode.toUpperCase());
         } catch (err) {
             console.log("ERROR: user cannot join room, data = " + JSON.stringify(data));
+            socket.emit('errorJoining');
         }
     });
 
@@ -47,11 +47,29 @@ io.on('connection', (socket) => {
             socket.emit('errorGameCreated');
         }
     });
+
+    // Check a code is valid before joining
+    socket.on('checkValidCode', (gameCode) => {
+        if (gameData.doesGameCodeExist(gameCode.toUpperCase())) {
+            socket.emit('successJoining');
+        } else {
+            socket.emit('errorJoining');
+        }
+    });
+
+    // Someone can guess a name
+    socket.on('guessName', (theName) => {
+        gameData.guess(theName, users[socket.id], getPlayersInRoom(users[socket.id].gameCode).length);
+    });
+
+    socket.on('disconnect',()=>{
+        console.log(socket.id + " disconected")
+        delete users[socket.id];
+    })
   });
 
 // Every second, update the games
 setInterval(() => {
-    console.log("  (Updating games)");
     gameData.updateGamesByOneSecond();
     // TODO: let the sockets know, if they're connected
     for (const [userId, value] of Object.entries(users)) {
@@ -70,6 +88,15 @@ setInterval(() => {
         }
     }
 }, 1000);
+
+function getPlayersInRoom(roomCode){
+    let output = [];
+    for (const [userId, value] of Object.entries(users)){
+        if(value.gameCode == roomCode){
+            output.push(users[userId]);
+        }
+    }
+}
   
 server.listen(3000, () => {
     console.log('listening on *:3000');

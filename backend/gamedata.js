@@ -52,7 +52,9 @@ class GameData {
       chat: [],
       currentSecondsLeft: TOTAL_SECONDS_PER_ROUND,
       totalSeconds: TOTAL_SECONDS_PER_ROUND,
-      currentNamePortions: []
+      currentNamePortions: [],
+      playersSuccessful: [],
+      playerCount: 0
     };
     return gameCode;
   }
@@ -61,17 +63,37 @@ class GameData {
     return this.gameData[gameCode];
   }
 
-  guess(player, str) {
-    let game = getGame(player.gameCode) 
-    if(game.allStreets.streets[game.currentNameIndex] == str){
-      player.addPoints(TOTAL_SECONDS_PER_ROUND/game.currentSecondsLeft);
-      chat.shift(player.name + " guessed the street name");
+  doesGameCodeExist(gameCode) {
+    return Object.keys(this.gameData).includes(gameCode);
+  }
+
+  guess(player, str, playerCount) {
+    // TODO: fully implement/check
+    if (this.gameData[player.gameCode].playersSuccessful.includes(player.gameCode)) {
+      // Already answered
+      return;
+    }
+
+    if (this.gameData[player.gameCode].allStreets.streets[this.gameData[player.gameCode].currentNameIndex].toLowerCase().trim() == str.toLowerCase().trim()) {
+      const pointsToAdd = Math.floor(TOTAL_SECONDS_PER_ROUND/this.gameData[player.gameCode].currentSecondsLeft);
+      player.addPoints(pointsToAdd);
+      this.gameData[player.gameCode].chat.unshift(player.name + " guessed the street name correctly!");
+      this.gameData[player.game].playersSuccessful.push(player.id);
     } else {
-      chat.shift(player.name + ":  " + guess);
+      this.gameData[player.gameCode].chat.unshift(player.name + ":  " + guess);
+    }
+
+    // Check if everyone has already answered correctly
+    if (this.gameData[player.gameCode].playersSuccessful.length >= playerCount) {
+      moveToNextName();
     }
   }
 
   moveToNextName(gameCode) {
+    this.gameData[gameCode].currentSecondsLeft = TOTAL_SECONDS_PER_ROUND;
+    this.gameData[gameCode].currentNamePortions = [];
+    this.gameData[gameCode].playersSuccessful = [];
+    this.gameData[gameCode].chat.unshift("-------");
     this.gameData[gameCode].currentNameIndex++;
     if (this.gameData[gameCode].currentNameIndex >= this.gameData[gameCode].allStreets.streets.length) {
       // Finished completely
@@ -96,8 +118,6 @@ class GameData {
       // Have we reached the end?
       if (this.gameData[key].currentSecondsLeft <= 0) {
         // TODO: clear the chat
-        this.gameData[key].currentSecondsLeft = TOTAL_SECONDS_PER_ROUND;
-        this.gameData[key].currentNamePortions = [];
         this.moveToNextName(key);
       }
     }
