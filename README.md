@@ -2,7 +2,7 @@
 
 Our project for IrvineHacks 2025: a multiplayer geography game that tests how well you know the streets in your city!
 
-![Gameplay of SpeedStreets](screenshot/Screenshot_Game)
+![Gameplay of SpeedStreets](screenshot/Screenshot_Game.png)
 
 ## How to Run
 
@@ -37,9 +37,9 @@ Each character has a different buff or debuff--hover over them to find out.
 
 ## Screenshots
 
-![The homepage, with character selection](screenshot/Screenshot_Home)
+![The homepage, with character selection](screenshot/Screenshot_Home.png)
 
-![The podium at the end of the game](screenshot/Screenshot_GameOver)
+![The podium at the end of the game](screenshot/Screenshot_GameOver.png)
 
 ## Technologies
 
