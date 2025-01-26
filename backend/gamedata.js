@@ -39,27 +39,8 @@ class GameData {
     let gameCode = this.generateCode();
     let allStreets;
     await streets.getStreets(cityName).then((res)=>allStreets = res);
-    //remove duplicates and undefined
-    let seen = new Set();
-    seen.add(undefined);
-    for(let i = 0; i < allStreets.streets.length; i++){
-      if(seen.has(allStreets.streets[i])){
-        allStreets.streets.splice(i, 1);
-        allStreets.coords.splice(i, 1);
-        i--;
-      } else {
-        seen.add(allStreets.streets[i]);
-      }
-    }
-    //shuffle streets
-    for(let i = 0; i < allStreets.streets.length; i++){
-      let temp = allStreets.streets[i];
-      let tempc = allStreets.coords[i];
-      let rand = Math.floor(Math.random() * allStreets.streets.length);
-      allStreets.streets[i] = allStreets.streets[rand];
-      allStreets.streets[rand] = temp;
-      allStreets.coords[i] = allStreets.coords[rand];
-      allStreets.coords[rand] = tempc;
+    if(allStreets.streets.length == 0){
+      throw ReferenceError;
     }
     // 2. Obtain the street names
     // 3. Create and return the game
@@ -83,7 +64,10 @@ class GameData {
   guess(player, str) {
     let game = getGame(player.gameCode) 
     if(game.allStreets.streets[game.currentNameIndex] == str){
-      player.addPoints(30/game.currentSecondsLeft);
+      player.addPoints(TOTAL_SECONDS_PER_ROUND/game.currentSecondsLeft);
+      chat.shift(player.name + " guessed the street name");
+    } else {
+      chat.shift(player.name + ":  " + guess);
     }
   }
 
@@ -101,7 +85,7 @@ class GameData {
       // Update the game
       this.gameData[key].currentSecondsLeft -= 1;
       // Based on seconds left, reveal another letter
-      if (this.gameData[key].currentSecondsLeft % Math.floor(30/this.gameData[key].allStreets.streets[this.gameData[key].currentNameIndex].length) == 0) {
+      if (this.gameData[key].currentSecondsLeft % Math.floor(TOTAL_SECONDS_PER_ROUND/this.gameData[key].allStreets.streets[this.gameData[key].currentNameIndex].length) == 0) {
         // TODO: fix this logic
         if (this.gameData[key].currentNamePortions.length == 0) {
           this.gameData[key].currentNamePortions.push(0);

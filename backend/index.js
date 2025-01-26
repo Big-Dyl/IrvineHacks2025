@@ -3,7 +3,7 @@ const http = require('http');
 const { Server } = require('socket.io');
 const app = express();
 const server = http.createServer(app);
-const player = require('./player');
+const Player = require('./player');
 const io = new Server(server, {
     cors: {
       origin: "http://localhost:5173",
@@ -29,8 +29,8 @@ io.on('connection', (socket) => {
     socket.on('joinGame', (data) => {
         console.log('USER JOINED ROOM: code = ' + data.gameCode + ', char = ' + data.selectedChar + ', id = ' + socket.id);
         try {
-            users[socket.id] = { gameCode: data.gameCode.toUpperCase(), selectedChar: data.selectedChar };
-            //users[socket.id] = new player(socket.id, "bob", )
+            //users[socket.id] = { gameCode: data.gameCode.toUpperCase(), selectedChar: data.selectedChar };
+            users[socket.id] = new Player(socket.id, data.playerName, data.selectedChar, data.gameCode )
         } catch (err) {
             console.log("ERROR: user cannot join room, data = " + JSON.stringify(data));
         }
@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
             gameData.createGame(cityName).then((gameCode) => {
                 console.log('GAME CREATED: code = ' + gameCode + ', city = ' + cityName);
                 socket.emit('gameCreated', gameCode);
-            });
+            }).catch(err=>socket.emit('errorGameCreated'));
         } catch (err) {
             socket.emit('errorGameCreated');
         }
