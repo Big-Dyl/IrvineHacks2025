@@ -215,7 +215,7 @@ interface ProgressProps{
 }
 const ProgressBar: React.FC<ProgressProps> = ({value, tot}) => {
     return (
-        <div className="relative border-2 rounded-xl h-10 mt-4">
+        <div className="relative border-2 rounded-xl h-10 mt-4 ml-4">
             <div className="absolute inset-0 bg-blue-500 rounded-l-lg" style={{width: `${Math.floor(100*value/tot)}%`}}></div>
             <div className="absolute inset-0 bg-white rounded-r-lg" style={{left: `${Math.floor(100*value/tot)}%`, width: `${100-Math.floor(100*value/tot)}%`}}></div>
         </div>
