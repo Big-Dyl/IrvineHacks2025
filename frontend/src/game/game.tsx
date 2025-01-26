@@ -17,7 +17,6 @@ function ChangeView(props: {
 }) {
     const map = useMap();
     map.setView([props.center_first, props.center_second], props.zoom);
-    console.log(props.center_second, props.center_first);
 
     return null;
 }
@@ -40,7 +39,7 @@ function MyMap(props: {
                 />
             </MapContainer>
         </div>
-    )
+    );
 }
 
 export default function GamePage(){
@@ -74,7 +73,6 @@ export default function GamePage(){
     useEffect(() => {
         socket.on("updateGame", (updatedData) => {
             // Update the info
-            //console.log(JSON.stringify(updatedData));
             setGameData(updatedData);
             // TODO: Update the map?
         });
@@ -106,49 +104,10 @@ export default function GamePage(){
         // Zooming out slowly
         const minZoom = 14;
         const maxZoom = 20;
-        const percentFinished = Math.max(0, Math.min(1, gameData.currentSecondsLeft / gameData.totalSeconds));
-        console.log(percentFinished);
+        const percentFinished = 1 - Math.max(0, Math.min(1, gameData.currentSecondsLeft / gameData.totalSeconds));
         const res = minZoom + (maxZoom - minZoom) * percentFinished;
-        console.log(res);
         return res;
     }
-
-    // Map setup
-    useEffect(() => {
-        return;
-        let map = L.map('map').setView([51.505, -0.09], 13);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            }).addTo(map);
-        let Stadia_StamenWatercolor = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.{ext}', {
-            minZoom: 1,
-            maxZoom: 16,
-            attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            ext: 'jpg'
-        });
-        Stadia_StamenWatercolor.addTo(map);
-        map.dragging.disable();
-        map.touchZoom.disable();
-        map.doubleClickZoom.disable();
-        map.scrollWheelZoom.disable();
-        map.boxZoom.disable();
-        map.keyboard.disable();
-        if (map.tap) map.tap.disable();
-        document.getElementById('map')!.style.cursor='default';
-        /*//mapRef.current!.mapRefObj = map;
-        //setMainMap(map);
-        //updateMap();
-        setInterval(() => {
-            // Keep updating
-            console.log(gameData.currentSecondsLeft);
-            console.log(gameData.currentSecondsLeft / gameData.totalSeconds);
-            let newZoom = Math.min(30, Math.max(14, 10 + (1 - (gameData.currentSecondsLeft / gameData.totalSeconds)) * 20));
-            console.log("Map update with new zoom " + newZoom);
-            map.setZoom(newZoom);
-        }, 1000);
-        //document.theMap = map;*/
-    }, [/*gameData*/]);
 
     // crossorigin="" was included originally in the leaflet stylesheet and script
     return (
@@ -176,20 +135,4 @@ export default function GamePage(){
             <MyMap center_first={gameData.allStreets.coords[gameData.currentNameIndex][1]} center_second={gameData.allStreets.coords[gameData.currentNameIndex][0]} zoom={getZoomAmount()} />
         </div>
     );
-    // attribution = '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    //url = 'https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.{ext}'
-
-
-            /*<MapContainer
-                style={{"height": "90vh"}}
-                className="markercluster-map"
-                center={[51.0, 19.0]}
-                zoom={4}
-                maxZoom={18}
-            >
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                />
-                </MapContainer>*/
 }
