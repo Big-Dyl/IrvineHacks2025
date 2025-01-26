@@ -46,7 +46,7 @@ Each character has a different buff or debuff--hover over them to find out.
 Frontend:
 - Vite and React
 - Tailwind CSS
-- Leaflet, including data from OpenStreetMap using the Stadia.StamenWatercolor provider
+- Leaflet, using data from OpenStreetMap
 
 Backend:
 - Node.js
@@ -56,7 +56,7 @@ Backend:
 
 ## Credits
 
-Thanks to OpenStreetMap for providing the map data
+Thanks to [OpenStreetMap](openstreetmap.org/copyright) contributors for map data, via [Leaflet](https://leafletjs.com/)
 
 Art by @JiaZhu350
 
