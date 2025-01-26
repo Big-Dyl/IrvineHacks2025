@@ -231,7 +231,13 @@ const TextBar = (props: any) => {
     }
     return (
         <div>
-            <Card className="bg-white" style={{width: "10rem", height: "60vh"}}>{"" + props.chat.length}</Card>
+        <Card className="bg-white" style={{width: "10rem", height: "60vh", overflow: "auto"}}>
+                <ul>
+                    {props.chat.map((item: any, i: number) => {
+                        return <li key={i}>{item}</li>;
+                    })}
+                </ul>
+            </Card>
             <Input value={theChatInput} className="bg-white mt-4 border-2" placeholder="Type your answer" onChange={handleChange} onKeyDown={submitTheInput} />
         </div>
     );

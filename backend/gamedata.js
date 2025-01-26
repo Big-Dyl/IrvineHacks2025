@@ -80,15 +80,17 @@ class GameData {
     if (this.gameData[player.gameCode].allStreets.streets[this.gameData[player.gameCode].currentNameIndex].toLowerCase().trim() == str.toLowerCase().trim()) {
       const pointsToAdd = Math.floor(TOTAL_SECONDS_PER_ROUND/this.gameData[player.gameCode].currentSecondsLeft);
       player.addPoints(pointsToAdd);
-      this.gameData[player.gameCode].chat.unshift(player.name + " guessed the street name correctly!");
-      this.gameData[player.game].playersSuccessful.push(player.id);
+      this.gameData[player.gameCode].chat.push(player.name + " guessed the street name correctly!");
+      this.gameData[player.gameCode].playersSuccessful.push(player.id);
     } else {
-      this.gameData[player.gameCode].chat.unshift(player.name + ":  " + str);
+      this.gameData[player.gameCode].chat.push(player.name + ":  " + str);
     }
+    // Keep the chat small enough to see easily
+    while (this.gameData[player.gameCode].chat.length > 10) this.gameData[player.gameCode].chat.shift();
 
     // Check if everyone has already answered correctly
     if (this.gameData[player.gameCode].playersSuccessful.length >= playerCount) {
-      moveToNextName();
+      this.moveToNextName(player.gameCode);
     }
   }
 
@@ -96,7 +98,7 @@ class GameData {
     this.gameData[gameCode].currentSecondsLeft = TOTAL_SECONDS_PER_ROUND;
     this.gameData[gameCode].currentNamePortions = [];
     this.gameData[gameCode].playersSuccessful = [];
-    this.gameData[gameCode].chat.unshift("-------");
+    this.gameData[gameCode].chat.push("-------");
     this.gameData[gameCode].currentNameIndex++;
     if (this.gameData[gameCode].currentNameIndex >= this.gameData[gameCode].allStreets.streets.length) {
       // Finished completely
