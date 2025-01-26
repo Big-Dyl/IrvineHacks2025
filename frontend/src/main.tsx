@@ -40,7 +40,7 @@ ReactDOM.createRoot(root).render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="game" element={<GamePage />} />
-      <Route path="sideb" element={<RankBar playerList={fakeList}/>} />
+      <Route path="sideb" element={<RankBar playerList={fakeList} className="w-60 h-screen ml-60 mt-25"/>} />
     </Routes>
   </BrowserRouter>
 );

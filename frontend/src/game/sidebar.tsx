@@ -14,6 +14,7 @@ interface Player{
 
 interface RankBarProps{
     playerList: Player[];
+    className: string;
 }
 
 interface EntryProps{
@@ -26,15 +27,15 @@ const PlayerEntry: React.FC<EntryProps> = ({player}) => {
     return (
         <li className="flex h-16 rounded-xl border-2 my-2 shadow-lg bg-white">
             <img src={picLis[player.char]}/>
-            <div className="">
-                <div className="flex justify-end w-40">{player.name}</div>
-                <div className="flex justify-end w-40">{player.score}</div>
+            <div className="flex flex-col justify-center ">
+                <div className="w-40 flex justify-end mr-4 text-xl font-serif">{player.name}</div>
+                <div className="w-40 flex justify-end mr-4 font-bold">{player.score}</div>
             </div>
         </li>
     );
 }
 
-export const RankBar: React.FC<RankBarProps> = ({playerList}) => {
+export const RankBar: React.FC<RankBarProps> = ({playerList, className}) => {
 
     const getCps = () => {
         let compos = [];
@@ -45,7 +46,7 @@ export const RankBar: React.FC<RankBarProps> = ({playerList}) => {
     }
 
     return (
-        <div className="flex h-screen" style={{marginLeft: '15%', marginTop: '5rem'}}>
+        <div className={className}>
             <ul>
                 {getCps()}
             </ul>
