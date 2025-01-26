@@ -8,6 +8,8 @@ import * as L from 'https://unpkg.com/leaflet@1.8.0/dist/leaflet-src.esm.js'
 import 'leaflet/dist/leaflet.css'
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet'
 
+import { RankBar } from "./sidebar";
+
 import socket from '../socket'
 
 function ChangeView(props: {
