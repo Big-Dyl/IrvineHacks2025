@@ -61,6 +61,7 @@ class GameData {
     return this.gameData[gameCode];
   }
 
+
   guess(player, str) {
     let game = getGame(player.gameCode) 
     if(game.allStreets.streets[game.currentNameIndex] == str){
