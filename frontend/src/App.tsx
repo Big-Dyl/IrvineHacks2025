@@ -26,6 +26,7 @@ function App() {
   const [cityName, setCityName] = useState("");
   const [playerName, setPlayerName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errorText, setErrorText] = useState("");
 
   socket.on("gameCreated", (gameCode) => {
     // Go to the corresponding URL
@@ -41,6 +42,24 @@ function App() {
     const newUrl = new URL(document.location + "./game");
     newUrl.searchParams.append("selectedChar", ("" + selectedChar));
     newUrl.searchParams.append("roomCode", gameCode);
+    newUrl.searchParams.append("playerName", playerName);
+    window.location.href = newUrl.toString();
+  });
+
+  socket.on("errorJoining", () => {
+    setLoading(false);
+    setErrorText("Error joining: make sure you entered a valid room code!");
+  });
+
+  socket.on("errorGameCreated", () => {
+    setLoading(false);
+    setErrorText("Error creating the game: make sure you spelled the city name correctly!");
+  });
+
+  socket.on("successJoining", () => {
+    const newUrl = new URL(document.location + "./game");
+    newUrl.searchParams.append("selectedChar", ("" + selectedChar));
+    newUrl.searchParams.append("roomCode", roomCode);
     newUrl.searchParams.append("playerName", playerName);
     window.location.href = newUrl.toString();
   });
@@ -54,12 +73,7 @@ function App() {
 
   const joinGame = () => {
     // Join the game, and go to the corresponding URL
-    // TODO: does it exist?
-    const newUrl = new URL(document.location + "./game");
-    newUrl.searchParams.append("selectedChar", ("" + selectedChar));
-    newUrl.searchParams.append("roomCode", roomCode);
-    newUrl.searchParams.append("playerName", playerName);
-    window.location.href = newUrl.toString();
+    socket.emit("checkValidCode", roomCode);
     setLoading(true);
   };
 
@@ -69,7 +83,7 @@ function App() {
   return (
     <>
       <div className='mx-auto w-4/5 h-screen mt-16'>
-        <h1 className='mx-auto w-2/3 font-bold text-white text-6xl flex justify-center border-t-20 py-4 border-b-20'>- - 🧐 SpeedStreets 🏙 - -</h1>
+        <h1 className='mx-auto w-2/3 font-bold text-white text-6xl flex justify-center border-t-20 py-4 border-b-20 min-w-132'>- - 🧐 SpeedStreets 🏙 - -</h1>
         {
           loading
           ?
@@ -119,6 +133,13 @@ function App() {
               <Button className='bg-black text-white h-12 ml-2' onClick={hostGame}>Host it!</Button>
 
             </div>
+
+            {errorText.length != 0 ? <span className="text-red-500 flex justify-center">
+              {errorText}
+              <br />
+              <br />
+              <br />
+            </span> : null}
             
             <div className='flex justify-center'>
               <div className='relative'>
