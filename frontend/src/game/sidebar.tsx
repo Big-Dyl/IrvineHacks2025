@@ -50,7 +50,7 @@ export const RankBar: React.FC<RankBarProps> = ({playerList, className}) => {
 
     return (
         <div className={className}>
-            <ScrollArea className="h-120 w-70 outline-2 rounded">
+            <ScrollArea className="w-70 outline-2 rounded" style={{height: "60vh"}}>
                 <ul>
                     {getCps()}
                 </ul>
