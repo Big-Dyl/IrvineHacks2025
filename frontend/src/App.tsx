@@ -26,11 +26,6 @@ function App() {
   const [playerName, setPlayerName] = useState("");
   const [loading, setLoading] = useState(false);
 
-  function constructURL(gameCode : string){
-    const newUrl = new URL(document.location + "./game");
-  }
-  /*useEffect(() => {
-  */
   socket.on("gameCreated", (gameCode) => {
     // Go to the corresponding URL
     const newUrl = new URL(document.location + "./game");
@@ -39,7 +34,15 @@ function App() {
     newUrl.searchParams.append("playerName", playerName);
     window.location.href = newUrl.toString();
   });
-  /*}, []);*/
+
+  socket.on("gameCreated", (gameCode) => {
+    // Go to the corresponding URL
+    const newUrl = new URL(document.location + "./game");
+    newUrl.searchParams.append("selectedChar", ("" + selectedChar));
+    newUrl.searchParams.append("roomCode", gameCode);
+    newUrl.searchParams.append("playerName", playerName);
+    window.location.href = newUrl.toString();
+  });
 
   const hostGame = () => {
     // Create the game; wait for the message back to navigate
