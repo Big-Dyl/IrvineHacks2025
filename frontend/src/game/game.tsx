@@ -236,7 +236,7 @@ const TextBar = (props: any) => {
         <Card className="bg-white" style={{width: "10rem", height: "60vh", overflow: "auto"}}>
                 <ul>
                     {props.chat.map((item: any, i: number) => {
-                        return <li key={i}>{item}</li>;
+                        return <li className={item.includes("correctly!") ? "text-green-500 font-bold" : ""} key={i}>{item}</li>;
                     })}
                 </ul>
             </Card>
