@@ -29,10 +29,10 @@ io.on('connection', (socket) => {
     socket.on('joinGame', (data) => {
         console.log('USER JOINED ROOM: code = ' + data.gameCode + ', char = ' + data.selectedChar + ', id = ' + socket.id);
         try {
-            //users[socket.id] = { gameCode: data.gameCode.toUpperCase(), selectedChar: data.selectedChar };
-            users[socket.id] = new Player(socket.id, data.playerName, data.selectedChar, data.gameCode )
+            users[socket.id] = new Player(socket.id, data.playerName, data.selectedChar, data.gameCode.toUpperCase());
         } catch (err) {
             console.log("ERROR: user cannot join room, data = " + JSON.stringify(data));
+            socket.emit('errorJoining');
         }
     });
 
@@ -46,6 +46,20 @@ io.on('connection', (socket) => {
         } catch (err) {
             socket.emit('errorGameCreated');
         }
+    });
+
+    // Check a code is valid before joining
+    socket.on('checkValidCode', (gameCode) => {
+        if (gameData.doesGameCodeExist(gameCode.toUpperCase())) {
+            socket.emit('successJoining');
+        } else {
+            socket.emit('errorJoining');
+        }
+    });
+
+    // Someone can guess a name
+    socket.on('guessName', (theName) => {
+        gameData.guess(theName, users[socket.id], getPlayersInRoom(users[socket.id].gameCode).length);
     });
 
     socket.on('disconnect',()=>{

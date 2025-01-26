@@ -1,8 +1,8 @@
-# IrvineHacks2025
+# SpeedStreets
 
-Our hackathon project for IrvineHacks 2025
+Our project for IrvineHacks 2025: a multiplayer geography game that tests how well you know the streets in your city!
 
-## Run
+## How to Run
 
 Development frontend:
 ```sh
@@ -10,6 +10,7 @@ cd ./frontend/
 npm install
 npm run dev
 ```
+- Typically will be on `localhost:5173`
 
 Development backend:
 ```sh
@@ -17,6 +18,14 @@ cd ./backend/
 npm install
 node index.js
 ```
+
+## How to Play
+
+Just open up the game's homepage, enter a city name, choose a name, and click "Host it!" A new game will be created.
+
+Give the room code to your participants, who can also enter it on the homepage to join!
+
+You can also choose a different character, including:
 
 ## Technologies
 
@@ -30,3 +39,15 @@ Backend:
 - Express
 - Socket
 - The OpenStreetMap/Overpass API
+
+## Credits
+
+Thanks to OpenStreetMap for providing the map data
+
+Art by @JiaZhu350
+
+Backend and API work by @Big-Dyl
+
+Frontend styling by @edokydocy
+
+Socket communication, map, and merge conflict resolution by @Cadecraft
