@@ -3,6 +3,7 @@ const streets = require('./streets');
 const TOTAL_SECONDS_PER_ROUND = 20;
 
 class GameData {
+  
   constructor() {
     // Store the game data
     // Format reference:
@@ -19,6 +20,7 @@ class GameData {
     }
     */
     this.gameData = {};
+    this.DELAY = 100;
   }
 
   generateCode() {
@@ -102,12 +104,15 @@ class GameData {
     }
   }
 
-  updateGamesByOneSecond() {
+  update() {
     for (const key of Object.keys(this.gameData)) {
       // Update the game
-      this.gameData[key].currentSecondsLeft -= 1;
+      this.gameData[key].currentSecondsLeft -= this.DELAY/1000;
       // Based on seconds left, reveal another letter
-      if (this.gameData[key].currentSecondsLeft % Math.floor(TOTAL_SECONDS_PER_ROUND/this.gameData[key].allStreets.streets[this.gameData[key].currentNameIndex].length) == 0) {
+      const percentTimeElapsed = 1 - (this.gameData[key].currentSecondsLeft / this.gameData[key].totalSeconds);
+      const percentWordRevealed = this.gameData[key].currentNamePortions.length / this.gameData[key].allStreets.streets[this.gameData[key].currentNameIndex].length;
+      //if (Math.floor(this.gameData[key].currentSecondsLeft) % Math.floor(TOTAL_SECONDS_PER_ROUND/this.gameData[key].allStreets.streets[this.gameData[key].currentNameIndex].length) == 0) {
+      if (percentTimeElapsed > percentWordRevealed) {
         // TODO: fix this logic
         if (this.gameData[key].currentNamePortions.length == 0) {
           this.gameData[key].currentNamePortions.push(0);

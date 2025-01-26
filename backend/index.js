@@ -70,7 +70,7 @@ io.on('connection', (socket) => {
 
 // Every second, update the games
 setInterval(() => {
-    gameData.updateGamesByOneSecond();
+    gameData.update();
     // TODO: let the sockets know, if they're connected
     for (const [userId, value] of Object.entries(users)) {
         if (value === undefined) {
@@ -87,7 +87,7 @@ setInterval(() => {
             continue;
         }
     }
-}, 1000);
+}, gameData.DELAY);
 
 function getPlayersInRoom(roomCode){
     let output = [];
@@ -96,6 +96,7 @@ function getPlayersInRoom(roomCode){
             output.push(users[userId]);
         }
     }
+    return output.sort((a,b)=>a.points - b.points);
 }
   
 server.listen(3000, () => {
